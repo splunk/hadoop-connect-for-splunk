@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dashboard>
+  <label>Export Monitor</label>
+  <row>
+    <table>
+      <searchString>index=_internal splunk_server=local source=*export_metrics.log group=transfer | stats sum(eval(local_KB/(1024*1024))) AS lgb, sum(eval(hdfs_KB/(1024*1024))) AS hgb, sum(hdfs_files) AS Files, sum(events) AS Events BY export_name | eval lgb=round(lgb,3)| eval hgb=round(hgb,3)| sort -lgb | rename export_name AS "Export Job", lgb AS "Raw GB", hgb AS "HDFS GB" | fieldformat Events=tostring(Events, "commas")</searchString>
+      <title>Summary - Last 24h</title>
+      <earliestTime>-24h</earliestTime>
+      <option name="count">10</option>
+      <option name="displayRowNumbers">true</option>
+      <option name="showPager">true</option>
+      <option name="drilldown">none</option>
+    </table>
+  </row>
+  <row>
+    <chart>
+      <searchString>index=_internal splunk_server=local source=*export_metrics.log group=transfer  | eval gbs=local_KB/(1024*1024)|timechart partial=f span=1h per_day(gbs) AS "GB Per Day" BY export_name | rename export_name AS "Export Job"</searchString>
+      <title>Aggregate Export Rate (raw GB/day)</title>
+      <earliestTime>-24h</earliestTime>
+      <option name="charting.axisTitleX.text">Time</option>
+      <option name="charting.chart">column</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+      <option name="charting.chart.stackMode">stacked</option>
+      <option name="charting.layout.splitSeries">false</option>
+      <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+      <option name="charting.primaryAxisTitle.text"/>
+      <option name="charting.secondaryAxis.maximumNumber">""</option>
+      <option name="charting.secondaryAxis.minimumNumber">""</option>
+      <option name="charting.secondaryAxis.scale">""</option>
+      <option name="drilldown">none</option>
+    </chart>
+    <chart>
+      <searchString>index=_internal splunk_server=local source=*export_metrics.log group=transfer | timechart partial=f span=1h sum(hdfs_files) AS "Files" BY export_name | rename export_name AS "Export Job"</searchString>
+      <title>Files by Export Job</title>
+      <earliestTime>-24h</earliestTime>
+      <option name="charting.axisTitleX.text">Time</option>
+      <option name="charting.chart">column</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+      <option name="charting.chart.stackMode">stacked</option>
+      <option name="charting.layout.splitSeries">false</option>
+      <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+      <option name="charting.primaryAxisTitle.text"/>
+      <option name="charting.secondaryAxis.maximumNumber">""</option>
+      <option name="charting.secondaryAxis.minimumNumber">""</option>
+      <option name="charting.secondaryAxis.scale">""</option>
+      <option name="drilldown">none</option>
+    </chart>
+  </row>
+  <row>
+    <chart>
+      <searchString>
+      index=_internal splunk_server=local source=*export_metrics.log group=transfer  | timechart partial=f span=1h sum(local_KB) as lb, sum(local_time) as lt, sum(hdfs_KB) as hb, sum(hdfs_time) as ht | eval lr=lb/(lt*1024) | eval hr=hb/(ht*1024) |  fields _time, lr, hr | rename lr AS Local, hr AS HDFS
+      </searchString>
+      <title>Transfer Rate by Filesystem (MB/s)</title>
+      <earliestTime>-24h</earliestTime>
+      <option name="charting.axisTitleX.text">Time</option>
+      <option name="charting.chart">column</option>
+      <option name="charting.chart.nullValueMode">connect</option>
+      <option name="charting.layout.splitSeries">true</option>
+      <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+      <option name="charting.primaryAxisTitle.text"/>
+      <option name="charting.secondaryAxis.maximumNumber">""</option>
+      <option name="charting.secondaryAxis.minimumNumber">""</option>
+      <option name="charting.secondaryAxis.scale">""</option>
+      <option name="drilldown">none</option>
+    </chart>
+  </row>
+</dashboard>

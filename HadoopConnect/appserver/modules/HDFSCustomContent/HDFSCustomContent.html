@@ -1,0 +1,25 @@
+<%page args="module"/>
+<div class="custom-content">
+% if "staticContent" in module :
+    % if module["staticContent"] :
+        <%
+            from lxml.html.clean import Cleaner
+            import re
+            cleaner = Cleaner(comments = False,
+                              links = False,
+                              meta = False,
+                              page_structure = false,
+                              processing_instructions = False,
+                              embedded = False,
+                              frames = False,
+                              forms = False,
+                              annoying_tags = False,
+                              remove_unknown_tags = False,
+                              safe_attrs_only = False)
+            html = cleaner.clean_html('<p>' + module["staticContent"] + '</p>')
+            html = re.sub('^<p>|</p>$','',html)
+        %>
+        ${_(html)}
+    % endif
+% endif
+</div>

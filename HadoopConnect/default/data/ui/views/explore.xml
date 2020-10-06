@@ -1,0 +1,100 @@
+<view autoCancelInterval="90" isVisible="true" objectMode="SimpleForm"
+onunloadCancelJobs="true" template="HadoopConnect:/templates/layout/dashboard.html" stylesheet="hideFirstColumn.css">
+    <label>Explore</label>
+    <module name="AccountBar" layoutPanel="appHeader" />
+    <module name="HDFSAppBar" layoutPanel="navigationHeader" />
+    <module name="Message" layoutPanel="messaging">
+        <param name="filter">*</param>
+        <param name="clearOnJobDispatch">False</param>
+        <param name="maxSize">1</param>
+    </module>
+    <module name="Message" layoutPanel="messaging">
+        <param name="filter">splunk.search.job</param>
+        <param name="clearOnJobDispatch">True</param>
+        <param name="maxSize">1</param>
+    </module>
+    <module name="HDFSFTR" layoutPanel="appHeader">
+        <param name="configLink">/app/HadoopConnect/config_clusters</param>
+    </module>
+    <module name="HiddenSearch" layoutPanel="panel_row1_col1" group="HDFS Explore"
+    autoRun="False">
+        <param name="search">
+            <![CDATA[| hdfs ls $Location$ | rex field=source "(?<uri>[^:]*://[^/]*)/" | eval Location=uri+path | eval size = if(type=="dir","",size)| rex field=Location "/(?<Name>[^/]*$)"| rename size as Size type as Type | table Location Type Name Size]]>
+        </param>
+        <param name="groupLabel">All files under dir</param>
+        <param name="earliest">0</param>
+        <module name="HDFSEntitySelectLister">
+            <param name="entityPath">admin/clusters/</param>
+            <param name="settingToCreate">form.Location</param>
+            <param name="namespace">HadoopConnect</param>
+            <param name="owner">nobody</param>
+            <param name="selectUsingValue">true</param>
+            <param name="entityFieldsToDisplay">
+                <list>
+                    <param name="multiLabel">%(name)s</param>
+                    <param name="value">uri</param>
+                </list>
+            </param>
+            <param name="intention">
+                <param name="name">stringreplace</param>
+                <param name="arg">
+                    <param name="Location">
+                        <param name="fillOnEmpty">True</param>
+                    </param>
+                </param>
+            </param>
+            <param name="replacementMap">
+                <param name="arg">
+                    <param name="Location">
+                        <param name="value" />
+                    </param>
+                </param>
+            </param>
+            <module name="HDFSFileBreadCrumb">
+                <param name="replacementMap">
+                    <param name="arg">
+                        <param name="Location">
+                            <param name="value" />
+                        </param>
+                    </param>
+                </param>
+                <param name="field">Location</param>
+                <param name="label">Go To:</param>
+                <param name="intention">
+                    <param name="name">stringreplace</param>
+                    <param name="arg">
+                        <param name="Location">
+                            <param name="fillOnEmpty">True</param>
+                        </param>
+                    </param>
+                </param>
+                <module name="HDFSSubmitButton">
+                    <param name="updatePermalink">True</param>
+                    <param name="allowSoftSubmit">True</param>
+                    <param name="label">Go</param>
+                    <module name="Paginator">
+                        <param name="count">10</param>
+                        <param name="entityName">results</param>
+                        <module name="EnablePreview">
+                            <param name="enable">True</param>
+                            <param name="display">False</param>
+                            <module name="HDFSSimpleFileTable">
+                                <param name="drilldown">row</param>
+                                <param name="entityName">results</param>
+                                <param name="displayRowNumbers">False</param>
+                                <param name="allowTransformedFieldSelect">True</param>
+                                <module name="HDFSSimpleDrilldown">
+                                <param name="newWindow">True</param>
+                                <param name="links">
+                                    <param name="*">/app/search/flashtimeline?q=| hdfs read $click.value$</param>
+                                    </param>
+                                </module>
+                                <module name="Gimp" />
+                            </module>
+                        </module>
+                    </module>
+                </module>
+            </module>
+        </module>
+    </module>
+</view>

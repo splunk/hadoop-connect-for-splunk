@@ -1,0 +1,20 @@
+<view autoCancelInterval="100" isPersistable="true" isSticky="true" isVisible="true" objectMode="viewconf" onunloadCancelJobs="false" template="search.html">
+  <label>Export Defaults</label>
+  
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="HDFSAppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="clearOnJobDispatch">False</param>
+    <param name="maxSize">1</param>
+  </module>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">splunk.search.job</param>
+    <param name="clearOnJobDispatch">True</param>
+    <param name="maxSize">1</param>
+  </module>
+
+  <module name="IFrameInclude" layoutPanel="viewHeader">
+      <param name="src">/custom/HadoopConnect/hdfssetup/create</param>
+  </module>
+</view>

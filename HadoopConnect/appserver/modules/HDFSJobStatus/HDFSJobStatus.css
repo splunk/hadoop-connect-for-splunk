@@ -1,0 +1,156 @@
+/* HDFSJobStatus - this module holds the export button link and duplicates JobStatus*/
+.HDFSJobStatus {
+    padding:5px 0 0 0;
+    margin:0;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+.splFormSearch .HDFSJobStatus {
+    clear:both;
+}
+
+.HDFSJobStatus {
+    position:relative;
+}
+
+.HDFSJobStatus .splHeader {
+	float: left;	
+}
+
+.HDFSJobStatus .jobActions,
+.HDFSJobStatus .nextSteps {
+	float: right;
+	padding: 0 10px 5px 0;
+}
+
+.HDFSJobStatus .jobActions{
+	padding-right:  0;
+}
+
+.HDFSJobStatus a {
+	margin: 0px;
+	margin-left: 5px;
+}
+
+.HDFSJobStatus .jobActions a {
+	margin-left: 0;
+}
+
+.HDFSJobStatus ul.buttonBar  li.autoPauseTip {
+	position: relative;
+	top: 0;
+}
+.HDFSJobStatus h2 {
+    display:inline;
+}
+
+.HDFSJobStatus .empty {
+    !display:none;
+}
+
+.HDFSJobStatus .none {
+    height:20px;
+}
+
+
+/* undoing a weird margin that will be in old 4.0 skins */
+.HDFSJobStatus .splHeader h2 {
+    margin-right:0px;
+}
+.HDFSJobStatus .running h2,
+.HDFSJobStatus .runningReport h2 {
+    padding-left: 22px;
+}
+.HDFSJobStatus .paused h2,
+.HDFSJobStatus .complete h2 {
+    padding-left:20px;
+}
+.HDFSJobStatus .finalizing h2 {
+    padding-left:20px;
+}
+.HDFSJobStatus .savedsearchpopup {
+    display:none;	
+}
+
+.HDFSJobStatus {
+    position:relative;
+}
+
+.HDFSJobStatus .clearFix {
+    clear: both;
+}
+
+/*
+ * auto-pause
+ */
+.HDFSJobStatus .autoPause,
+ .HDFSJobStatus .autoPauseStatus {
+    display:none;
+}
+
+.HDFSJobStatus .autoPauseStatus {
+	clear: left;
+	padding: 0 10px 5px 32px;
+}
+
+.HDFSJobStatus ul.buttonBar  .autoPauseTip a {
+    display:inline;
+    margin: 0;
+    padding: 0;
+}
+
+.popupContent .autoPause {
+    background-color: #fff;
+    padding: 10px;
+}
+.popupContent .autoPause label {
+    display: inline;
+}
+.popupContent .autoPause p {
+    width: 34em;
+}
+
+/* Added HDFSJobStatus styles from default.css */
+.HDFSJobStatus {
+	background-color: #EDEDE7;
+}
+
+.HDFSJobStatus .output .scanned,
+.HDFSJobStatus .output .results {
+    font-style:normal;
+    font-size:12px;
+}
+.HDFSJobStatus .output .running h2,
+.HDFSJobStatus .output .runningReport h2,
+.HDFSJobStatus .output .finalizing h2 {
+    background: url(/static/img/skins/default/loader_green_on_grey.gif) left no-repeat;
+    /* use loader.gif for green on white */
+}
+
+.HDFSJobStatus .output .complete h2 {
+    background: url(/static/img/skins/default/bg_job_status.png) 0 -13px  no-repeat;
+}
+
+.HDFSJobStatus .output .paused h2 {
+    background: url(/static/img/skins/default/bg_job_status.png) 0 8px no-repeat;
+}
+/* IE6 removal of gradient overlays */
+.HDFSJobStatus .splHeader {
+   _background-image: none;   
+}
+
+.HDFSJobStatus .autoPauseTip {
+    color: #800;
+}
+.HDFSJobStatus .autoPauseTip a {
+    color: #1a7996;
+}
+.splView-buildexport .HDFSJobStatus {
+	background: #EDEDE7 url('/static/img/skins/default/overlay_bottomgradient_32.png') repeat-x bottom left;
+	_background-image: none;
+	border-bottom-color: #a4a4a4;
+}
+.report_builder_format_report .HDFSJobStatus {
+    border: 0;
+}

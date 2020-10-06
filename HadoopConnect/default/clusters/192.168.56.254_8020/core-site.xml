@@ -1,0 +1,1 @@
+<configuration><property><name>fs.default.name</name><value>hdfs://192.168.56.254:8020</value></property><property><name>hadoop.security.authentication</name><value>simple</value></property><property><name>hadoop.security.authorization</name><value>false</value></property></configuration>

@@ -1,0 +1,113 @@
+<%!
+import os, urllib, sys
+import logging
+import cherrypy
+import time
+from splunk.appserver.mrsparkle.lib import util
+logger = logging.getLogger('splunk.apppserver.mrsparkle.module.app_bar')
+
+year = time.strftime('%Y')
+%>
+<%
+# define base DOM ID on which to attach menu triggers
+TOP_NAV_ACTIVATOR_BASE = 'navmenu_'
+
+
+#
+# assemble list of JSUnit tests
+#
+def generateJSUnitList():
+    relativePath = '/testing/tests'
+    extension = '.html'
+    testFileDir = util.make_absolute(cherrypy.config['static_dir'] + relativePath)
+    logger.debug('Fetching HTML test files from: %s' % testFileDir)
+    jsUnitTests = []
+    
+    try:
+        for f in os.listdir(testFileDir):
+            if f.endswith(extension):
+                args = urllib.urlencode({"testPage": make_url(['static', 'testing', 'tests', f])})
+                jsUnitTests.append({'label': f[0:-len(extension)], 'uri': make_url('/testing/jsunit/testRunner.html?' + args)})
+
+        # Sort unit tests alphabetically by label.
+        def unitTestSortBy(fieldName) :
+            def compare(a, b) :
+                return cmp(a[fieldName], b[fieldName])
+            return compare
+        jsUnitTests.sort(unitTestSortBy('label'))
+
+    except:
+        pass
+
+    return jsUnitTests
+
+%>
+
+<%page args="module"/>
+
+<%namespace name="lib" file="//lib.html" import="*"/>
+
+<%call expr="lib.add_script_block()">
+    Splunk.Module.loadParams.${module['id']}.menuData = ${jsonify(navConfig)};
+</%call>
+
+<%call expr="lib.add_script_block()">
+    Splunk.Module.loadParams.${module['id']}.unitTestListing = ${jsonify(generateJSUnitList())};
+</%call>
+
+<div class="splHeader splHeader-navigation">
+
+
+<div class="aboutPopupContainer">
+    <div class="aboutPopupSplunkLogo"></div>
+    <p>
+        ${ _("Copyright &copy; 2005-%(year)s Splunk Inc. All rights reserved.") % dict(year=year)}
+        <br/>
+        ${_('version %(version)s, build %(build_number)s') % dict(version=cherrypy.config.get('version_label'), build_number=cherrypy.config.get('build_number'))} 
+    </p>
+    <ul>
+        <li><a href="http://www.splunk.com/r/support" target="_blank" class="spl-icon-external-link-xsm">${_("Support")}</a></li>
+        <li><a href="http://www.splunk.com/r/bugs" target="_blank" class="spl-icon-external-link-xsm">${_("File a Bug")}</a></li>
+        <li><a href="http://www.splunk.com/r/docs" target="_blank" class="spl-icon-external-link-xsm">${_("Documentation")}</a></li>
+        <li><a href="http://www.splunk.com/r/privacy" target="_blank" class="spl-icon-external-link-xsm">${_("Privacy policy")}</a></li>
+    </ul>
+##    <ul>
+##        <li><a href="/debug/status" target="_blank" class="spl-icon-external-link-xsm">${_("System information")}</a></li>
+##    </ul>
+    <p>
+        ${ _("Current app: %s" % APP['label']) | h}
+    </p>
+</div>
+
+<ul class="appBarNav">
+<%    
+      request = cherrypy.request.relative_uri
+      current_view = request.split('/')[-1]
+%>
+    % for index, menu in enumerate(navConfig):
+        % if 'submenu' in menu:
+            <li class="hasMenu">
+                <a href="#" id="${TOP_NAV_ACTIVATOR_BASE}${index}">${menu['label']|h}<span class="splIcon splIcon-triangle-2-s dropDown">${_("Dropdown")}</span></a>        
+            </li>
+        % else:
+<%    
+      view_name = menu['uri'].split('/')[-1] 
+%>
+            <li>
+                <a href="${menu['uri'] | h}" ${'class="currentView"' if view_name == current_view else ''}>${menu['label'] | h}</a>
+            </li>
+        % endif
+    % endfor
+    % if logging.getLogger('splunk').level == logging.DEBUG and generateJSUnitList():
+    <li class="hasMenu">
+        <a href="#" id="appBarUnitTests"><span>${_("Unit Tests")}</span></a>
+    </li>
+    % endif
+</ul>
+<div class="auxLinks">
+    <a class="help" href="${generateSelfHelpLink()}" target="_blank" title="${_('Splunk help')}">${_("Help")}</a>
+    <span>|</span>
+    <a class="aboutLink" href="#about" title="${_('About Splunk')}">${_("About")}</a>
+</div>
+</div>
+

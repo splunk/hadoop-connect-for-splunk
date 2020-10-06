@@ -1,0 +1,15 @@
+[]
+access = read : [ * ], write : [ admin ]
+export = system
+
+[commands/movehdfs]
+access = read : [ admin ], write : [ admin ]
+
+[commands/exporthdfs]
+access = read : [ admin ], write : [ admin ]
+
+[commands/hdfs]
+access = read : [ * ], write : [ admin ]
+
+[commands/hdfsinternal]
+access = read : [ admin ], write : [ admin ]

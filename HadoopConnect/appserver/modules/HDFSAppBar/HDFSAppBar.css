@@ -1,0 +1,90 @@
+/* CSS for the AppBar */
+.HDFSAppBar div.HDFSAppBar {
+    padding: 0px;
+    padding: 1px 10px;
+}
+.HDFSAppBar ul.appBarNav {
+    list-style: none none;
+    margin: 0px;
+}
+.HDFSAppBar ul.appBarNav li {
+    list-style: none none;
+    float: left;
+}
+.HDFSAppBar ul.appBarNav li a {
+    display: block;
+    _display: inline-block;
+    padding: 0px 10px;
+}
+.HDFSAppBar ul.appBarNav li a:hover {
+    text-decoration: none;
+}
+.HDFSAppBar ul.appBarNav li.hasMenu a {
+   padding-right: 23px;
+   position: relative;
+   *zoom:1;
+   outline: none;
+}
+.HDFSAppBar ul.appBarNav li.hasMenu a span.splIcon {
+    position: absolute;
+    right:10px;
+    top:13px;
+}
+
+
+/* white menu overrides */
+.HDFSAppBar .splMenu-primary a {
+    width: 180px;
+    padding: 5px 15px;
+    *width:auto;
+}
+
+.HDFSAppBar .splMenu-primary ul div.innerMenuWrapper {
+    width: 210px;
+}
+.HDFSAppBar .splMenu-primary ul li {
+    width:210px;
+    _width:auto;
+}
+
+/* auxiliary links (help, prefs, about) */
+
+.HDFSAppBar .auxLinks {
+    float: right;
+    margin-right: 10px;
+    font-size: 11px;
+}
+.HDFSAppBar .auxLinks span {
+    padding: 0px 6px;
+}
+
+.HDFSAppBar .unitTestListing {
+    display:none;
+}
+
+/* styling for about dialog */
+.HDFSAppBar .aboutPopupContainer {
+    display:none;
+    padding: 10px;
+}
+.HDFSAppBar .aboutPopupContainer .aboutPopupSplunkLogo {
+    background: transparent url(/static/img/skins/default/logo_splunkServer_white_low.png) no-repeat scroll 0 0;
+    height: 45px;
+    width: 120px;
+}
+
+.HDFSAppBar ul.appBarNav li a.currentView {
+    background: url(/static/img/skins/default/overlay_white_28.png) repeat-x scroll 0 0 transparent;
+}
+
+.HDFSAppBar ul.appBarNav li a {
+    padding: 1px 23px;
+}
+
+.HDFSAppBar .appBarNav a{
+    color: #E9E9E9;
+}
+
+.HDFSAppBar {
+    padding: 1px 10px;
+}

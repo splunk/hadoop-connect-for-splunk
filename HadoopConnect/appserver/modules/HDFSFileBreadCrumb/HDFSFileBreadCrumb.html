@@ -1,0 +1,19 @@
+<%page args="module"/>
+<div class="FieldSetItem">
+    <label>${module.get('label', module.get('field')) | h}</label>
+    <input type="text" class="input-long" name="${module.get('field') | h}"
+        <%
+        default = module['params'].get('q', '')
+        # overwrite the old deprecated param with the new standard 'default' param if it's present.
+        if ('default' in module['params']) :
+            default = module['params'].get('default', '')
+        %>
+        value="${default | h}"
+    />
+</div>
+<div class="crumbs">
+    <label>${module.get('field', '')}</label>
+    <span class="sel">
+    </span>
+    <span class="breadCrumb"></span>
+</div>

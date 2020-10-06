@@ -1,0 +1,67 @@
+.HDFSSimpleFileTable {
+    clear:both;
+    padding:0px;
+    _padding:0px 5px;
+
+}
+
+.HDFSSimpleFileTable .empty_results {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.HDFSSimpleFileTable .simpleResultsTableWrapper {
+	overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0px 10px;
+    _padding: 0px;
+    _width:100%;
+    *position:relative;
+}
+/*SPL-49659 - fix IE9 hover bug*/
+.ie9 .HDFSSimpleFileTable .simpleResultsTableWrapper {
+    min-height:0;
+    margin-bottom:auto;
+}
+.HDFSSimpleFileTable .simpleTableOptions {
+    height:32px;
+    line-height: 32px;
+    text-align:right;
+    padding:0px 10px;
+}
+.HDFSSimpleFileTable table.simpleResultsTable {
+    white-space:nowrap;
+}
+.HDFSSimpleFileTable table.simpleResultsTable td.pos,
+.HDFSSimpleFileTable table.simpleResultsTable th.pos {
+    padding: 3px 10px 5px 5px;
+    width: 15px;
+}
+.HDFSSimpleFileTableMenuTemplate {
+    display: none;
+}
+.HDFSSimpleFileTable splMenu ul {
+    margin-top: -2px
+}
+.HDFSSimpleFileTable table.splTable tr td.selected,
+.HDFSSimpleFileTable table.splTable tr th.selected,
+.HDFSSimpleFileTable table.splTable tr.selected td,
+.HDFSSimpleFileTable table.splTable tr div.selected {
+    background-color:#DCD28B;
+    color:#fff;
+}
+.HDFSSimpleFileTable table.enableMouseover tr td.d {
+    color:#1a7996;
+    cursor:pointer;
+}
+
+.HDFSSimpleFileTable table th a {
+    cursor:pointer;
+}
+
+.HDFSSimpleFileTable td[field=Type] {
+    width: 25px;
+}
+.HDFSSimpleFileTable td[field=Item] {
+    min-width: 200px;
+}

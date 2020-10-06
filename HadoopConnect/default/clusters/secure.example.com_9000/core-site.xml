@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+
+<property>
+  <name>hadoop.security.authentication</name>
+  <value>kerberos</value>
+</property>
+ 
+<property>
+  <name>hadoop.security.authorization</name>
+  <value>true</value>
+</property>
+
+  <property>
+    <name>dfs.namenode.kerberos.principal</name>
+
+    <!-- IMPORTANT: CHANGE THIS TO FIT YOUR ENVIRONMENT -->
+    <value>hdfs/secure.example.com@REALM.EXAMPLE.COM</value>
+    <description>
+      Kerberos principal name for the NameNode
+    </description>
+  </property>
+
+</configuration>

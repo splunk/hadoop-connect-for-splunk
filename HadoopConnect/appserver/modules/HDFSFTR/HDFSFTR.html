@@ -1,0 +1,62 @@
+<script type="text/javascript">
+ if($C.VERSION_LABEL < "5.0")
+    $("<style type='text/css'> .splunk_five_or_later{ display: none; } </style>").appendTo("head");
+</script>   
+
+<div class="ftrPopup">
+    <div class="admin_configure">
+        <div class="content popup_header">
+            <img class="splunk_logo" src="/static/app/HadoopConnect/welcome_splunk_logo.png"/>
+            <img src="/static/app/HadoopConnect/welcome_logo_arrow.png"/>
+            <img src="/static/app/HadoopConnect/welcome_hadoop_logo.png"/>
+        </div>
+        <div class="welcome_horizontal_rule">
+            <img src="/static/app/HadoopConnect/welcome_horizontal_rule.png"/>
+        </div>
+        <div class="content import_export">
+            <div class="import_export_visual">
+                <div class="export">
+                    <img src="/static/app/HadoopConnect/images/welcome_export.png"/>
+                </div>
+ 
+                <div class="import splunk_five_or_later">
+                    <img src="/static/app/HadoopConnect/images/welcome_input.png"/>
+                </div>
+
+                <div class="explore">
+                    <img src="/static/app/HadoopConnect/images/welcome_explore.png"/>
+                </div>
+            </div>
+            <div class="import_export_content">
+                <ul>
+                    <li>Reliably export data from Splunk to your HDFS cluster</li>
+                    <li>Setup a secure connection between Splunk and your HDFS cluster with Kerberos</li>
+                    <li class="splunk_five_or_later">Input and index data from HDFS into Splunk for searching, analysis and reporting</li>
+                    <li>Explore your HDFS cluster to find useful data files and confirm data delivery</li>
+                    <li>Read HDFS metadata or data from a file and process them using Splunk's search language</li>
+                </ul>
+            </div>
+        </div>
+        <div class="welcome_horizontal_rule splClearfix">
+            <img src="/static/app/HadoopConnect/welcome_horizontal_rule.png"/>
+        </div>
+        <div class="content">
+            <div class="call_to_action">
+                <img src="/static/app/HadoopConnect/welcome_warning_triangle.png"/>
+                <strong><font size=3 color=red>This app needs to be configured!</font></strong>
+            </div>
+            <div class="preconditions">
+                <h3>You will need the following:</h3>
+                <ul>
+                    <li>Install and configure Hadoop comand line utilities (including Java if necessary)
+		    <li>Ensure that the following command works: $HADOOP_HOME/bin/hadoop fs -ls hdfs://&lt;namenode&gt;:&lt;port&gt;/
+                    <li>Configure the app by adding Hadoop clusters to it
+                    <li>If you need a secure connection you will need a Kerberos principal name and associated keytab file.
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="non_admin_configure">
+    This app has not been configured yet. <br><br>  Until it is configured, it may not work as expected. <br><br>Please notify your Splunk admin about this message.'
+    </div>
+</div>

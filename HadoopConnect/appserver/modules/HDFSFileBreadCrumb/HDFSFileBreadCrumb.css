@@ -1,0 +1,16 @@
+.breadCrumb .crumbs span {
+    margin: 0 3px;
+}
+
+.HDFSFileBreadCrumb form{
+    margin: 10px 0;
+}
+
+.HDFSFileBreadCrumb div.FieldSetItem{
+    padding: 0 0 12px 0;
+}
+
+.HDFSFileBreadCrumb input {
+    margin-left: 20px;
+    margin-right: 20px;
+}

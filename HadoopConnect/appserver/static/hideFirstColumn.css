@@ -1,0 +1,60 @@
+.SimpleResultsTable tr td:first-child,
+.SimpleResultsTable tr th:first-child {
+    display:none;
+}
+
+
+.SplunkModule.HDFSFileBreadCrumb, .SplunkModule.HDFSSubmitButton {
+    float: left;
+    clear: none;
+    display: inline-block;
+}
+
+.SplunkModule.HDFSSubmitButton {
+    padding-top: 5px;
+}
+
+.SplunkModule.Paginator{
+    float: right;
+    padding-top: 47px;
+}
+
+.splView-explore_job .panel_row1_col .SplunkModule.Paginator{
+    padding-top: 0;
+}
+
+.HDFSFileBreadCrumb .FieldSetItem input {
+    margin-left: 25px;
+}
+
+.HDFSFileBreadCrumb div.crumbs {
+    width: 700px;
+}
+
+.panel_row1_col1 .SubmitButton {
+    display: none;
+}
+
+#HDFSFieldHeader_1_1_0 {
+    float: left;
+}
+
+.panel_row1_col1 .Paginator { 
+    float: right;
+}
+
+/* Explore Trickery */
+.HDFSFileBreadCrumb .HDFSEntitySelectLister {
+    margin: 0 15px;
+}
+
+.HDFSFileBreadCrumb .crumbs label,
+.HDFSFileBreadCrumb .crumbs span {
+    float: left;
+    vertical-align: middle;
+}
+
+.HDFSFileBreadCrumb .crumbs label,
+.HDFSFileBreadCrumb .crumbs .breadCrumb {
+    margin-top: 5px;
+}

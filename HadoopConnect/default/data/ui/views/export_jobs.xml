@@ -1,0 +1,214 @@
+<view autoCancelInterval="100" isPersistable="false" isSticky="false" isVisible="true" objectMode="Dashboard" onunloadCancelJobs="false" template="dashboard.html">
+    <label>Scheduled Exports</label>
+
+    <module name="AccountBar" layoutPanel="appHeader" />
+    <module name="HDFSAppBar" layoutPanel="navigationHeader" />
+    <module name="Message" layoutPanel="messaging">
+        <param name="filter">*</param>
+        <param name="clearOnJobDispatch">False</param>
+        <param name="maxSize">1</param>
+    </module>
+    <module name="Message" layoutPanel="messaging">
+        <param name="filter">splunk.search.job</param>
+        <param name="clearOnJobDispatch">True</param>
+        <param name="maxSize">1</param>
+    </module>
+    <module name="HDFSFTR" layoutPanel="appHeader">
+        <param name="configLink">/app/HadoopConnect/config_clusters</param>
+    </module>
+
+    <module name="TimeRangePicker" layoutPanel="panel_row1_col1">
+        <param name="default">Last 24 hours</param>
+        <module name="HiddenSearch" layoutPanel="panel_row1_col1" group="Summary" autoRun="True">
+            <param name="groupLabel">Summary - Last 24h</param>
+            <param name="search">index=_internal splunk_server=local source=*export_metrics.log group=transfer | stats sum(eval(local_KB/(1024*1024))) AS lgb, sum(eval(hdfs_KB/(1024*1024))) AS hgb, sum(hdfs_files) AS Files, sum(events) AS Events BY export_name | eval lgb=round(lgb,3)| eval hgb=round(hgb,3)| sort -lgb | rename export_name AS "Export Job", lgb AS "Raw GB", hgb AS "HDFS GB" | fieldformat Events=tostring(Events, "commas")</param>
+            <module name="ViewstateAdapter">
+                <param name="suppressionList">
+                    <item>drilldown</item>
+                    <item>count</item>
+                    <item>displayRowNumbers</item>
+                    <item>showPager</item>
+                </param>
+                <module name="HiddenFieldPicker">
+                    <param name="strictMode">True</param>
+                    <module name="JobProgressIndicator" />
+                    <module name="Paginator">
+                        <param name="count">10</param>
+                        <param name="entityName">results</param>
+                        <module name="EnablePreview">
+                            <param name="display">False</param>
+                            <param name="enable">False</param>
+                            <module name="HDFSSelectableResultsTable">
+                                <param name="entityName">results</param>
+                                <param name="displayRowNumbers">true</param>
+                                <param name="count">1000</param>
+                                <param name="allowTransformedFieldSelect">True</param>
+                                <param name="selectField">Export Job</param>
+                                <param name="selectLabel">Chart</param>
+                                <param name="selectSearchField">export_name</param>
+                                <param name="selectEmptySearchValue">NO_EXPORTJOB_SELECTED</param>
+                                <module name="Gimp" />
+
+                                <module name="ConvertToIntention">
+                                    <param name="intention">
+                                        <param name="name">stringreplace</param>
+                                        <param name="arg">
+                                            <param name="selection">
+                                                <param name="value">$selection$</param>
+                                            </param>
+                                        </param>
+                                    </param>
+
+                                    <module name="HiddenSearch" layoutPanel="panel_row2_col1" group="Aggregate Export Rate (raw GB/day)" autoRun="True">
+                                        <param name="groupLabel">Aggregate Export Rate (raw GB/day)</param>
+                                        <param name="search">index=_internal splunk_server=local source=*export_metrics.log group=transfer $selection$ | eval gbs=local_KB/(1024*1024)|timechart partial=f bins=32 per_day(gbs) AS "GB Per Day" BY export_name | rename export_name AS "Export Job"</param>
+                                        <module name="ViewstateAdapter">
+                                            <param name="suppressionList">
+                                                <item>charting.secondaryAxis.scale</item>
+                                                <item>charting.legend.labelStyle.overflowMode</item>
+                                                <item>charting.chart</item>
+                                                <item>charting.secondaryAxis.minimumNumber</item>
+                                                <item>charting.chart.stackMode</item>
+                                                <item>charting.layout.splitSeries</item>
+                                                <item>charting.primaryAxisTitle.text</item>
+                                                <item>drilldown</item>
+                                                <item>charting.axisTitleX.text</item>
+                                                <item>charting.secondaryAxis.maximumNumber</item>
+                                                <item>charting.chart.nullValueMode</item>
+                                            </param>
+                                            <module name="HiddenFieldPicker">
+                                                <param name="strictMode">True</param>
+                                                <module name="JobProgressIndicator">
+                                                    <module name="EnablePreview">
+                                                        <param name="display">False</param>
+                                                        <param name="enable">True</param>
+                                                        <module name="HiddenChartFormatter">
+                                                            <param name="charting.secondaryAxis.scale">""</param>
+                                                            <param name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</param>
+                                                            <param name="charting.chart">column</param>
+                                                            <param name="charting.secondaryAxis.minimumNumber">""</param>
+                                                            <param name="charting.chart.stackMode">stacked</param>
+                                                            <param name="charting.layout.splitSeries">false</param>
+                                                            <param name="charting.axisTitleX.text">Time</param>
+                                                            <param name="charting.secondaryAxis.maximumNumber">""</param>
+                                                            <param name="charting.chart.nullValueMode">connect</param>
+                                                            <module name="JSChart">
+                                                                <param name="width">100%</param>
+                                                                <module name="Gimp" />
+                                                            </module>
+                                                            <module name="ViewRedirectorLink">
+                                                                <param name="viewTarget">flashtimeline</param>
+                                                            </module>
+                                                        </module>
+                                                    </module>
+                                                </module>
+                                            </module>
+                                        </module>
+                                    </module>
+
+                                    <module name="HiddenSearch" layoutPanel="panel_row2_col2" group="Files by Export Job" autoRun="True">
+                                        <param name="groupLabel">Files by Export Job</param>
+                                        <param name="search">index=_internal splunk_server=local source=*export_metrics.log group=transfer $selection$ | timechart partial=f bins=32 sum(hdfs_files) AS "Files" BY export_name | rename export_name AS "Export Job"</param>
+                                        <module name="ViewstateAdapter">
+                                            <param name="suppressionList">
+                                                <item>charting.secondaryAxis.scale</item>
+                                                <item>charting.legend.labelStyle.overflowMode</item>
+                                                <item>charting.chart</item>
+                                                <item>charting.secondaryAxis.minimumNumber</item>
+                                                <item>charting.chart.stackMode</item>
+                                                <item>charting.layout.splitSeries</item>
+                                                <item>charting.primaryAxisTitle.text</item>
+                                                <item>drilldown</item>
+                                                <item>charting.axisTitleX.text</item>
+                                                <item>charting.secondaryAxis.maximumNumber</item>
+                                                <item>charting.chart.nullValueMode</item>
+                                            </param>
+                                            <module name="HiddenFieldPicker">
+                                                <param name="strictMode">True</param>
+                                                <module name="JobProgressIndicator">
+                                                    <module name="EnablePreview">
+                                                        <param name="display">False</param>
+                                                        <param name="enable">True</param>
+                                                        <module name="HiddenChartFormatter">
+                                                            <param name="charting.secondaryAxis.scale">""</param>
+                                                            <param name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</param>
+                                                            <param name="charting.chart">column</param>
+                                                            <param name="charting.secondaryAxis.minimumNumber">""</param>
+                                                            <param name="charting.chart.stackMode">stacked</param>
+                                                            <param name="charting.layout.splitSeries">false</param>
+                                                            <param name="charting.axisTitleX.text">Time</param>
+                                                            <param name="charting.secondaryAxis.maximumNumber">""</param>
+                                                            <param name="charting.chart.nullValueMode">connect</param>
+                                                            <module name="JSChart">
+                                                                <param name="width">100%</param>
+                                                                <module name="Gimp" />
+                                                            </module>
+                                                            <module name="ViewRedirectorLink">
+                                                                <param name="viewTarget">flashtimeline</param>
+                                                            </module>
+                                                        </module>
+                                                    </module>
+                                                </module>
+                                            </module>
+                                        </module>
+                                    </module>
+
+                                    <module name="HiddenSearch" layoutPanel="panel_row3_col1" group="Transfer Rate by Filesystem (MB/s)" autoRun="True">
+                                        <param name="groupLabel">Transfer Rate by Filesystem (MB/s)</param>
+                                        <param name="search">
+                                            index=_internal splunk_server=local source=*export_metrics.log group=transfer $selection$ | timechart partial=f bins=32 sum(local_KB) as lb, sum(local_time) as lt, sum(hdfs_KB) as hb, sum(hdfs_time) as ht | eval lr=lb/(lt*1024) | eval hr=hb/(ht*1024) | fields _time, lr, hr | rename lr AS Local, hr AS HDFS
+                                        </param>
+                                        <module name="ViewstateAdapter">
+                                            <param name="suppressionList">
+                                                <item>charting.secondaryAxis.scale</item>
+                                                <item>charting.legend.labelStyle.overflowMode</item>
+                                                <item>charting.chart</item>
+                                                <item>charting.secondaryAxis.minimumNumber</item>
+                                                <item>charting.layout.splitSeries</item>
+                                                <item>charting.primaryAxisTitle.text</item>
+                                                <item>drilldown</item>
+                                                <item>charting.axisTitleX.text</item>
+                                                <item>charting.secondaryAxis.maximumNumber</item>
+                                                <item>charting.chart.nullValueMode</item>
+                                            </param>
+                                            <module name="HiddenFieldPicker">
+                                                <param name="strictMode">True</param>
+                                                <module name="JobProgressIndicator">
+                                                    <module name="EnablePreview">
+                                                        <param name="display">False</param>
+                                                        <param name="enable">True</param>
+                                                        <module name="HiddenChartFormatter">
+                                                            <param name="charting.secondaryAxis.scale">""</param>
+                                                            <param name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</param>
+                                                            <param name="charting.chart">column</param>
+                                                            <param name="charting.secondaryAxis.minimumNumber">""</param>
+                                                            <param name="charting.layout.splitSeries">true</param>
+                                                            <param name="charting.axisTitleX.text">Time</param>
+                                                            <param name="charting.secondaryAxis.maximumNumber">""</param>
+                                                            <param name="charting.chart.nullValueMode">connect</param>
+                                                            <module name="JSChart">
+                                                                <param name="width">100%</param>
+                                                                <module name="Gimp" />
+                                                            </module>
+                                                            <module name="ViewRedirectorLink">
+                                                                <param name="viewTarget">flashtimeline</param>
+                                                            </module>
+                                                        </module>
+                                                    </module>
+                                                </module>
+                                            </module>
+                                        </module>
+                                    </module>
+
+                                </module>
+                            </module>
+                            <module name="ViewRedirectorLink">
+                                <param name="viewTarget">flashtimeline</param>
+                            </module>
+                        </module>
+                    </module>
+                </module>
+            </module>
+        </module>
+    </module>
+</view>

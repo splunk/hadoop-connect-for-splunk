@@ -1,0 +1,542 @@
+    /* General
+ -------------------------------- */
+
+/* TODO: this should really only apply to iframe body*/
+body, body.splTemplate-dashboard {
+    background-color: #F7F7F7;
+}
+
+.dashboardCell {
+    margin: 10px;
+    padding: 25px;
+}
+
+a.disabled {
+    visibility: visible;
+    cursor: text;
+}
+
+a.disabled:hover {
+text-decoration: none;
+}
+
+/* Iframe - remove module padding*/
+.IFrameInclude,
+.HDFSIFrameInclude {
+    padding:0;
+}
+
+.clear {
+    clear: both;
+}
+
+/* Skin
+ ----------------------------------- */
+.HDFSIFrameInclude, .IFrameInclude, .TitleBar .splHeader-primary{
+    background-color: #F7F7F7;
+}
+
+.splHeader-dashboard h2 {
+    color: #3F3F3F;
+    font-size: 20px;
+    font-weight: 200;
+    font-family:"Helvetica nenu", Helvetica, Arial, sans-serif;
+    line-height: normal;
+    padding:0;
+    margin:0 55px 20px 0;
+}
+
+.splHeader-dashboard {
+    height: auto;
+}
+
+.splHeader-dashboard::after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
+input.hdfsButton-primary,
+a.hdfsButton-primary,
+button.hdfsButton-primary {
+    background: url("/static/img/skins/default/overlay_gloss_28.png") repeat-x scroll left -2px #F7F7F7;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px 4px 4px 4px;
+    color: #111111;
+    font-size: 11px;
+    padding: 0 10px;
+    height: 23px;
+    line-height: 23px;
+    float: left;
+}
+
+input.hdfsButton-primary:hover,
+input.hdfsButton-primary:focus,
+a.hdfsButton-primary:hover,
+a.hdfsButton-primary:focus,
+button.hdfsButton-primary:hover,
+button.hdfsButton-primary:focus {
+    background-color: #E4E4E4;
+    outline: none;
+    text-decoration: none;
+}
+
+.AccountBar {
+    background-color: #D6DFE7;
+    background-image: linear-gradient(top, #D6DFE7 8%, #A7B1B9 54%);
+    background-image: -o-linear-gradient(top, #D6DFE7 8%, #A7B1B9 54%);
+    background-image: -moz-linear-gradient(top, #D6DFE7 8%, #A7B1B9 54%);
+    background-image: -webkit-linear-gradient(top, #D6DFE7 8%, #A7B1B9 54%);
+    background-image: -ms-linear-gradient(top, #D6DFE7 8%, #A7B1B9 54%);
+
+    background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.08, #D6DFE7),
+    color-stop(0.54, #A7B1B9)
+);
+}
+
+.appHeaderWrapper h1 {
+    color: #FFFFFF;
+    line-height: 45px;
+    padding-top: 4px;
+}
+.appLogo {
+    background: url("images/Splunk_logo.png") no-repeat scroll 0 0 transparent;
+    margin-top: 15px;
+    margin-left: 3px;
+    height: 39px;
+    padding-right: 10px;
+}
+
+.HDFSFTR {
+    display: none;
+}
+
+.appHeader .accountBarItems a {
+    color: #404446;
+}
+
+/* HDFS forms
+ ----------------------------------- */
+.form_el {
+    margin: 0 10px 0 0;
+    min-height: 60px;
+    float: left;
+    margin-top:10px;
+}
+
+.form_el input, .form_el label {
+    display: block;
+}
+
+.form_el .nb input, .form_el .nb label {
+    display: inline;
+}
+
+.form_el label {
+    padding-right: 10px;
+}
+
+.form_el .nb {
+    margin-top: 5px;
+}
+
+.form_el button {
+    margin: 5px 0 0 0;
+}
+
+.form_el.submit {
+    min-height: 20px;
+    margin-top:10px;
+}
+
+.addRED {
+    overflow: hidden
+}
+
+table.splTable th.row {
+    border-color: #CCC;
+}
+
+.input-short {
+    width:300px;
+}
+
+.input-long {
+    width: 624px; /* (300 x 2) + 16 + 8*/
+    _width: 634px; /*fix IE6 margin collapse*/
+}
+select.input-long {
+    width: 640px;
+}
+.input-mini
+{
+    width: 30px;
+}
+
+.required {
+    color: #AF4444;
+}
+
+/*not sure why this isn't already set*/
+.buttons {
+    list-style: none;
+    margin: 20px 0 0 0;
+}
+
+.buttons .left {
+    float:left;
+}
+.buttons .right {
+    float:right;
+}
+
+/*clusters page*/
+.control-group {
+    clear: left;
+    margin: 10px 0 10px 0;
+}
+.control-group input {
+    display: block;
+}
+.control-group textarea {
+    display: block;
+    width: 624px;
+    height: 400px;
+}
+.control-group label{
+    display: block;
+}
+
+.secureOptions {
+    margin-left: 20px;
+}
+.cluster-type {
+    float: left;
+    padding-right: 20px;
+}
+.cluster-type-selection {
+    height: 25px;
+}
+.control-group input[type="checkbox"],
+.control-group input.checkbox,
+.control-group .inline
+ {
+    display: inline;
+}
+
+/* config clusters */
+.page-config-clusters .splHeader {
+    margin-bottom: 20px;
+}
+.page-config-clusters .splHeader .hdfsButton-primary {
+    margin-left: 20px;
+}
+
+.wizardPopup .popupContent iframe {
+    width: 445px;
+}
+
+table.zebra-striped th,
+.HDFSSelectableResultsTable table th,
+.REDJobs table th {
+    border-bottom: 1px solid #b7b7b7;
+}
+table.zebra-striped td,
+.HDFSSelectableResultsTable table td,
+.REDJobs table td {
+    border-bottom: none;
+}
+table.zebra-striped tr:nth-child(odd) td,
+.HDFSSelectableResultsTable table tbody tr:nth-child(even) td,
+.REDJobs table tr:nth-child(odd) td {
+    background: #f4f4f4;
+}
+.HDFSSelectableResultsTable table tbody td.pos {
+    background: #fff !important;
+}
+
+/* IE6&7 fixes */
+.wizard input.input-wide {
+    *width: 270px;
+}
+.wizard select.input-wide {
+    *width: 280px;
+}
+
+/*list jobs page*/
+#form_toggle {
+    background: transparent url(/static/app/HadoopConnect/images/expand_arrow_closed.png) no-repeat center;
+    min-height: 8px;
+    min-width: 8px;
+    display: inline-block;
+    float: left;
+    margin-right: 7px
+}
+#form_toggle.expandForm {
+    background: transparent url(/static/app/HadoopConnect/images/expand_arrow_open.png) no-repeat center;
+}
+
+.Paginator ul {
+    display: inline;
+    float: right;
+}
+
+table.splTable th.help {
+    vertical-align: bottom;
+}
+
+/* CSS for the AppBar */
+    .AppBar div.AppBar {
+        padding: 0px;
+        padding: 1px 10px;
+    }
+    .AppBar ul.appBarNav {
+        list-style: none none;
+        margin: 0px;
+    }
+    .AppBar ul.appBarNav li {
+        list-style: none none;
+        float: left;
+    }
+    .AppBar ul.appBarNav li a {
+        display: block;
+        _display: inline-block;
+        padding: 0px 10px;
+    }
+    .AppBar ul.appBarNav li a:hover {
+        text-decoration: none;
+    }
+    .AppBar ul.appBarNav li.hasMenu a {
+       padding-right: 23px;
+       position: relative;
+       *zoom:1;
+       outline: none;
+    }
+    .AppBar ul.appBarNav li.hasMenu a span.splIcon {
+        position: absolute;
+        right:10px;
+        top:13px;
+    }
+
+
+    /* white menu overrides */
+    .AppBar .splMenu-primary a {
+        width: 180px;
+        padding: 5px 15px;
+        *width:auto;
+    }
+
+    .AppBar .splMenu-primary ul div.innerMenuWrapper {
+        width: 210px;
+    }
+    .AppBar .splMenu-primary ul li {
+        width:210px;
+        _width:auto;
+    }
+
+    /* auxiliary links (help, prefs, about) */
+
+    .AppBar .auxLinks {
+        float: right;
+        margin-right: 10px;
+        font-size: 11px;
+    }
+    .AppBar .auxLinks span {
+        padding: 0px 6px;
+    }
+
+    .AppBar .unitTestListing {
+        display:none;
+    }
+
+    /* styling for about dialog */
+    .AppBar .aboutPopupContainer {
+        display:none;
+        padding: 10px;
+    }
+    .AppBar .aboutPopupContainer .aboutPopupSplunkLogo {
+        background: transparent url(/static/img/skins/default/logo_splunkServer_white_low.png) no-repeat scroll 0 0;
+        height: 45px;
+        width: 120px;
+    }
+
+    .AppBar ul.appBarNav li a.currentView {
+        background: url(/static/img/skins/default/overlay_white_28.png) repeat-x scroll 0 0 transparent;
+    }
+
+    .SplunkModule.AppBar ul.appBarNav li a {
+        padding: 1px 23px;
+    }
+
+    .AppBar .appBarNav a{
+        color: #E9E9E9;
+    }
+
+    div.AppBar {
+        padding: 1px 10px;
+    }
+
+/* Home page */
+
+.splView-home .EntityLinkLister li {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 22px;
+    background-image: url(images/file_cabinet_icon.png);
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+    padding-left: 25px;
+}
+
+.splView-home .EntityLinkLister ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.splView-home .StaticContentSample p {
+    display: none;
+}
+
+.splView-export_jobs .TimeRangePicker {
+    position: absolute;
+    top: 25px;
+    left: 120px;
+}
+
+.cluster-type-selection {
+    clear: left;
+}
+.cluster-type-selection input {
+    border-style: none;
+}
+.REDJobs .Paginator,.REDJobs .messages {
+    clear:left;
+}
+
+.REDJobs .lag-error {
+    color: #c00;
+    font-weight: bold;
+}
+.REDJobs .lag-warn {
+    color: #c80;
+    font-weight: bold;
+}
+.REDJobs .never {
+    color: #888;
+}
+
+.REDJobs .status-failed {
+    color: #c00;
+    font-weight: bold;
+}
+
+
+.splView-home .popupContainer,
+.splView-buildexport .popupContainer {
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.splView-home .popupContent,
+.splView-buildexport .popupContent {
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.50);
+    -moz-box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.50)	;
+    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.50);
+    padding: 0;
+}
+
+.splView-home .splHeader-popup,
+.splView-buildexport .splHeader-popup {
+    display: none;
+}
+
+.splView-home .red-edit-popup,.splView-buildexport .red-edit-popup {
+    width: 460px;
+    padding: 20px;
+    z-index: 5;
+}
+
+.red-edit-popup h2, .splView-buildexport .popupContainer h2 {
+    border-bottom: 1px solid #3F3F3F;
+    color: #3F3F3F;
+    font-size: 24px;
+    font-weight: 200;
+    margin-bottom: 20px;
+    font-family:"Helvetica nenu", Helvetica, Arial, sans-serif;
+    margin-top: 15px;
+    padding-bottom: 20px;
+}
+
+.red-edit-popup .content {
+    min-height: 300px;
+}
+.splView-buildexport .red-edit-popup .content {
+    min-height: 400px;
+}
+
+.red-edit-popup table {
+    width: 100%;
+}
+
+.red-edit-popup td {
+    padding: 5px;
+}
+
+.red-edit-popup tr.note td {
+    padding: 0;
+}
+.red-edit-popup tr.note p.note {
+    padding: 0;
+    margin-top: 0;
+    margin-left: 5px;
+}
+
+.red-edit-popup td.col1 {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.red-edit-popup input {
+    width: 260px;
+}
+.red-edit-popup select {
+    width: 274px;
+}
+
+.red-edit-popup .partitioning input,.red-edit-popup .partitioning label {
+    display: inline;
+    float: none;
+    clear: none;
+    margin: 0;
+    width: auto;
+}
+
+.red-edit-popup  .ButtonRow {
+    margin-top: 50px;
+    padding-bottom: 20px;
+}
+.red-edit-popup  a.splButton-primary {
+    float: right;
+}
+.red-edit-popup  a.splButton-primary span,
+.red-edit-popup  a.splButton-secondary span {
+    width: 100px;
+}
+.red-edit-popup .content {
+    background: #fff;
+}
+.popupContent {
+    padding: 10px;
+}
+
+

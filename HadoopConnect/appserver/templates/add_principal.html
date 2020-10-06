@@ -1,0 +1,67 @@
+<%page expression_filter="h"/>
+<%inherit file="/layout/base.html"/>
+<%namespace file="/lib.html" import="manager_save_search_link"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+<%namespace name="helpers" file="//view/_helpers.html" import="*"/>
+
+<%def name="custom_css()">
+  <%lib:stylesheet_tags files="${['/static/css/view.css','/static/css/skins/default/default.css','/static/app/%s/application.css' % app, '/static/app/%s/help_tooltip.css' % app]}"/>
+  <%lib:script_tags files="${['/static/app/%s/application.js' % app, '/static/app/%s/help_tooltip.js' % app]}" />
+</%def>
+<%!
+   def is_edit(item):
+       return item.name and item.name.strip() != ''
+%>
+
+<div class="principal dashboardCell">
+    <div class="splHeader splHeader-dashboard">
+        <h2 title="Add New Principal">Add HDFS Principal</h2>
+    </div>
+
+    <div class="messages">
+    %  if principal and getattr(principal, 'errors', False):
+        % for error in principal.errors:
+            <p class="error"> ${error}</p>
+        % endfor
+    % endif
+    </div>
+
+    <form class="principalForm splClearfix" data-redirect="${make_url(['app', app, 'config_clusters'])}" action="${make_url(['custom', app , 'config', 'principals', 'add'])}" target="_top" method="POST" name="addPrincipal" id="addPrincipal" onsubmit="asyncSubmit(event);">
+        ${csrf_hidden_input()}
+
+
+        <input type="text" style="display:none" name="id" value="${principal.id or ''}"/>
+        <div class="control-group">
+            <label for="name" title="$kerberos_principal" class="help">
+                ${_('Principal Name')}
+                <span class="required">*</span>
+            </label>
+            % if is_edit(principal):
+                 <input type="hidden" id="name" name="name" value="${principal.name}" />
+                  <span> ${principal.name} </span>
+            % else:
+                 <input class="input-long" type="text" id="name" name="name" value="${principal.name}" />
+                 <p class="exampleText"><em>exporter@domain.example.com</em></p>
+             % endif
+        </div>
+
+        <div class="control-group">
+            <label for="keytab_path" title="$kerberos_keytab_file" class="help">
+                ${_('Local keytab path')}
+                <span class="required">*</span>
+            </label>
+            <input type="text" class="input-long" id="keytab_path" name="keytab_path"  value="${principal.keytab_path or ''}"/>
+            <p class="exampleText"><em>/tmp/exporter.keytab</em></p>
+        </div>
+
+        <ul class="buttons splClearfix">
+            <li class="left">
+                <a href="${make_url(['app', app, 'config_clusters'])}" class="splButton-secondary cancel" target="_top">${_('Cancel')}</a>
+            </li>
+            <li class="right">
+                <input class="hdfsButton-primary" type="submit" id="submitPrincipal" value="Save"/>
+            </li>
+        </ul>
+
+    </form>
+</div>

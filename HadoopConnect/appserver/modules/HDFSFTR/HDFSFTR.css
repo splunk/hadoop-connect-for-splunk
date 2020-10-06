@@ -1,0 +1,42 @@
+.ftrPopup .content {
+    margin: 0 50px;
+}
+.ftrPopup .content img {
+    padding: 20px;
+}
+.ftrPopup {
+    display: none;
+    z-index: 5;
+}
+.ftrPopup .popupContent {
+    padding: 10px;
+}
+.ftrPopup .admin_configure, .ftrPopup .non_admin_configure {
+    display: none;
+}
+.ftrPopup .import_export_visual {
+    width: 250px;
+    float: left;
+}
+.ftrPopup .import_export_content {
+    margin-top: 10px;
+    margin-left: 20px;
+    width: 334px;
+    float: left;
+}
+.ftrPopup ul li {
+    margin: 15px 0;
+}
+
+.ftrPopup img {
+    vertical-align: middle;
+}
+
+.ftrPopup div {
+    overflow: hidden;
+}
+
+.ftrPopup .preconditions {
+    padding-left: 20px;
+
+}

@@ -1,0 +1,100 @@
+<%page expression_filter="h"/>
+<%inherit file="/layout/base.html"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+
+<%def name="custom_css()">
+  <%lib:stylesheet_tags files="${[
+      '/static/css/view.css',
+      '/static/css/skins/default/default.css',
+      '/static/app/%s/application.css' % app,
+      '/modules/paginator/paginator.css',
+      '/static/app/%s/help_tooltip.css' % app
+  ]}"/>
+  <%lib:script_tags files="${['/static/app/%s/application.js' % app, '/static/app/%s/help_tooltip.js' % app]}" />
+</%def>
+
+<div class="export_defaults dashboardCell">
+    <div class="splHeader splHeader-dashboard">
+            <h2 title="Config Defaults">HDFS Export Defaults</h2>
+    </div>
+
+    %  if defaultExport and getattr(defaultExport, 'errors', False):
+        <div class="messages">
+            % for error in defaultExport.errors:
+                <p class="error"> ${error}</p>
+            % endfor
+        </div>
+    % endif
+    <form data-redirect="${make_url(['app', app, 'config_clusters'])}" action="${make_url(['custom', app , 'hdfssetup', 'submit'])}" target="_top" method="POST" name="hdfssetup" id="hdfssetup" onsubmit="asyncSubmit(event);">
+        ${csrf_hidden_input()}
+        <table>
+            <tbody>
+                <tr>
+                    <td class="col1"><label for="uri" title="$export_cluster" class="help">${_("HDFS URI")}</label></td>
+                    <td>
+                       % if clusters and len(clusters) > 0:
+                          <select class="input-short principal-list" name="uri">
+                              % for cluster in clusters:
+                                 <option value="${"hdfs://" + cluster.name}" ${'selected=true' if getattr(defaultExport, 'uri') == getattr(cluster, 'name') else ''}>${cluster.name}</option>
+                              % endfor
+                          </select>
+                      % else:
+                          <span class="input-short"> <a target=_top href="/app/HadoopConnect/config_clusters">Configure Clusters</a> </span>
+                      % endif
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1"><label for="base_path" title="$export_base_path" class="help">${_("HDFS Base Path")}</label></td>
+                    <td class="col2"><input id="base_path" name="base_path" class="input-short" value="${defaultExport.base_path or ''}"/></td>
+                </tr>
+                <tr>
+                    <td class="col1"><label title="$export_partition" class="help">${_("Partition by")}</label></td>
+                    <td class="col2">
+                    <input type="checkbox" class="checkbox" id="partition_date"   value="1" name="partition_date" ${'checked="checked"' if defaultExport.hasPartitionField('date') else ''}/>
+                    <label for="partition_date">${_('Date')}</label>
+
+                    <input type="checkbox" class="checkbox" id="partition_hour"   value="1" name="partition_hour" ${'checked="checked"' if defaultExport.hasPartitionField('hour') else ''}/>
+                    <label for="partition_hour">${_('Hour')}</label>
+
+                    <input type="checkbox" class="checkbox" id="partition_host"   value="1" name="partition_host" ${'checked="checked"' if defaultExport.hasPartitionField('host') else ''}/>
+                    <label for="partition_host">${_('Host')}</label>
+
+                    <input type="checkbox" class="checkbox" id="partition_sourcetype" value="1" name="partition_sourcetype" ${'checked="checked"' if defaultExport.hasPartitionField('sourcetype') else ''}/>
+                    <label for="partition_sourcetype">${_('Sourcetype')}</label>
+
+                    <input type="checkbox" class="checkbox" id="partition_source" value="1" name="partition_source" ${'checked="checked"' if defaultExport.hasPartitionField('source') else ''}/>
+                    <label for="partition_source">${_('Source')}</label>
+
+                                </td>
+                </tr>
+                <tr>
+                    <td class="col1"><label for="maxspan" title="$export_maxspan" class="help">${_("Maximum time span")}</label></td>
+                    <td class="col2"><input id="maxspan" name="maxspan" class="input-short" value="${defaultExport.maxspan or ''}"/></td>
+                </tr>
+                <tr>
+                    <td class="col1"><label for="minspan" title="$export_minspan" class="help">${_("Minimum time span")}</label></td>
+                    <td class="col2"><input id="minspan" name="minspan" class="input-short" value="${defaultExport.minspan or ''}"/></td>
+                </tr>
+                <tr>
+                    <td class="col1"><label for="roll_size" title="$export_roll_size" class="help">${_("Export file size")}</label></td>
+                    <td class="col2"><input id="roll_size" name="roll_size" class="input-short" value="${defaultExport.roll_size or ''}"/></td>
+                </tr>
+
+                                <tr>
+                                        <td class="col1"><label for="parallel_searches" title="$export_parallel_searches" class="help">${_("Parallel searches")}</label></td>
+                                        <td class="col2"><input id="parallel_searches" name="parallel_searches" class="input-short" value="${defaultExport.parallel_searches or ''}"/></td>
+                                </tr>
+
+
+            </tbody>
+        </table>
+        <ul class="buttons splClearfix">
+            <li class="left">
+                <a href="${make_url(['app', app, 'config_clusters'])}" class="splButton-secondary cancel" target="_top">${_('Cancel')}</a>
+            </li>
+            <li class="right">
+                <input class="hdfsButton-primary" type="submit" id="submitClusters" value="Save"/>
+            </li>
+        </ul>
+    </form>
+</div>

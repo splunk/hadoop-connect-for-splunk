@@ -1,0 +1,14 @@
+/*
+_________________________________*/
+.HDFSFieldHeader .splHeader h2 {
+ float: none;
+}
+
+.HDFSFieldHeader .splHeader h2 .DisplayField{
+ float: none;
+}
+
+.HDFSFieldHeader div {
+    padding: 0;
+    margin: 0;
+}

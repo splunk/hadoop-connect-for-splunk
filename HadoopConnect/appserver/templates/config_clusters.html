@@ -1,0 +1,170 @@
+<%page expression_filter="h"/>
+<%inherit file="/layout/base.html"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+
+<%!
+    from splunk.appserver.mrsparkle.lib import util
+%>
+<%def name="custom_css()">
+  <%lib:stylesheet_tags files="${['/static/app/%s/application.css' % app, '/modules/paginator/paginator.css', '/static/app/%s/help_tooltip.css' % app]}"/>
+  <%lib:script_tags files="${['/static/app/%s/application.js' % app, '/static/app/%s/help_tooltip.js' % app]}" />
+</%def>
+
+<%def name="css()">
+    <%coreCSSFiles = [
+        "/static/css/view.css",
+        "/static/css/skins/default/default.css"
+    ] %>
+    <%lib:stylesheet_tags files="${coreCSSFiles}" />
+</%def>
+
+<div class="page-config-clusters">
+
+    <div class="dashboardCell">
+        <div class="splHeader splHeader-dashboard">
+            <h2 title="HDFS Clusters">HDFS Clusters</h2>
+            <a href="${make_url(['app', app , 'config_add_cluster'])}" target="_top" class="hdfsButton-primary" title="Add Cluster">Add Cluster</a>
+        </div>
+
+        % if len(remoteClusters):
+        <table class="splTable cluster-list cluster-remote zebra-striped">
+            <tbody>
+                <tr>
+                    <th title="$cluster_namenode" class="help" style="width: 25%;">${_('Namenode')}</th>
+                    <th title="$cluster_hadoop_home" class="help">${_('Hadoop Home')}</th>
+                    <th title="$cluster_java_home" class="help">${_('Java Home')}</th>
+                    <th title="$cluster_secure" class="help">${_('Secure')}</th>
+                    <th title="$cluster_actions" class="help">${_('Actions')}</th>
+                </tr>
+                % for cluster in remoteClusters:
+                    <tr>
+                        <td><a href="${make_url(['app', app, 'config_add_cluster'], dict([('id', cluster.id)]))}" target="_top">${cluster.name}</a></td>
+                        <td>${cluster.hadoop_home}</td>
+                        <td>${cluster.java_home}</td>
+                        <td>${'Yes' if cluster.isSecure() else 'No' }</td>
+                        <td>
+                            <a class="action confirm"  data-confirm-text="Are you sure?" href="${make_url(['custom', app , 'config', 'clusters', 'delete'])}" data-id="${cluster.id}">${_('Delete')}</a> |
+                            <a target="_blank" href="${make_url(['app', app, 'explore'])+'?form.Location=' + cluster.getURI() + '/' }">${_('Explore')}</a> | 
+                            <a target="_blank" href="${make_url(['app', app, 'flashtimeline'])+'?q=|hdfs ls ' + cluster.getURI() + '/' }">${_('Test')}</a>
+                       </td>
+                    </tr>
+                % endfor
+            </tbody>
+        </table>
+        % endif
+        % if len(localClusters):
+        <table class="splTable cluster-list cluster-local zebra-striped">
+            <tbody>
+                <tr>
+                    <th title="$cluster_local_name" class="help" style="width: 25%;">${_('Name')}</th>
+                    <th title="$cluster_local_mount" class="help">${_('Mount Point')}</th>
+                    <th title="$cluster_actions" class="help">${_('Actions')}</th>
+                </tr>
+                % for cluster in localClusters:
+                    <tr>
+                        <td><a href="${make_url(['app', app, 'config_add_cluster'], dict([('id', cluster.id)]))}" target="_top">${cluster.name}</a></td>
+                        <td>${cluster.uri[len('file://'):]}</td>
+                        <td>
+                            <a class="action confirm" data-confirm-text="Are you sure?" href="${make_url(['custom', app , 'config', 'clusters', 'delete'])}" data-id="${cluster.id}">${_('Delete')}</a> |
+                            <a target="_blank" href="${make_url(['app', app , 'explore'])+'?form.Location=' + cluster.getURI() + '/' }">${_('Explore')}</a> |
+                            <a target="_blank" href="${make_url(['app', app , 'flashtimeline'])+'?q=|hdfs ls ' + cluster.getURI() + '/' }">${_('Test')}</a>
+                       </td>
+                    </tr>
+                % endfor
+            </tbody>
+        </table>
+        % endif
+        % if not len(localClusters)+len(remoteClusters):
+            <div class="empty-results">${_("No clusters have been configured yet.")}</div>
+        % endif
+
+    </div>
+    <div class="dashboardCell">
+        <div class="splHeader splHeader-dashboard">
+            <h2 title="${_('Kerberos Principals')}">${_('Kerberos Principals')}</h2>
+            <a href="${make_url(['app', app , 'config_add_principal'])}" target="_top" class="hdfsButton-primary" title="Add Principal">Add Principal</a>
+        </div>
+
+        <table class="splTable principal-list zebra-striped">
+            <tbody>
+                <tr>
+                    <th title="$kerberos_principal" class="help">${_('Principal Name')}</th>
+                    <th title="$kerberos_actions" class="help">${_('Actions')}</th>
+                </tr>
+                % for principal in principals:
+                    <tr>
+                        <td><a href="${make_url(['custom', app, 'config', 'principals', 'add'], dict([('id', principal.id)]))}">${principal.name}</a></td>
+                        <td>
+                            <a class="action confirm" data-confirm-text="Are you sure?" href="${make_url(['custom', app , 'config', 'principals', 'delete'])}" data-id="${principal.id}">${_('Delete')}</a>
+                       </td>
+                    </tr>
+                % endfor
+            </tbody>
+        </table>
+    </div>
+    <div class="dashboardCell">
+        <div class="splHeader splHeader-dashboard">
+            <h2 title="${_('Export Defaults')}">${_('Export Defaults')}</h2>
+            <a href="${make_url(['app', app , 'config_defaults'])}" target="_top" class="hdfsButton-primary" title="Change Export Defaults">Change Export Defaults</a>
+        </div>
+        <%
+            fields = [ ('uri', _('Cluster')),
+                       ('base_path', _('Base Path')),
+                       ('maxspan', _('Maximum Span')),
+                       ('minspan', _('Minimum Span')),
+                       ('parallel_searches', _('Parallel Searches')),
+                       ('partition_fields', _('Partition Fields')),
+                       ('format', _('Format')),
+                       ('fields', _('Fields')),
+                     ]
+        %>
+        <table class="splTable">
+            <tbody>
+                % for (k, name) in fields:
+                    <tr>
+                        <th class="row" style="width: 20%;"><em>${name}:</em></th>
+                        <td>${defaultExport.__dict__.get(k, '-')}</td>
+                    </tr>
+                %endfor
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function postit(path, parameters) {
+        var form = $('<form></form>');
+
+        form.attr("method", "post");
+        form.attr("action", path);
+
+        parameters.splunk_form_key = "${util.getFormKey()}"
+        $.each(parameters, function(key, value) {
+            var field = $('<input></input>');
+
+            field.attr("type", "hidden");
+            field.attr("name", key);
+            field.attr("value", value);
+
+            form.append(field);
+        });
+
+        // The form needs to be apart of the document in
+        // order for us to be able to submit it.
+        $(document.body).append(form);
+        form.submit();
+    }
+    $(function(){
+        $('a.action').live('click', function (e) {
+            e.preventDefault();
+            if ($(this).is('.confirm')) {
+                if (!confirm($(this).data('confirm-text'))) {
+                    return;
+                }
+            }
+            var el = $(this);
+            el.addClass('disabled');
+            postit($(this).attr('href'), { id: $(this).data('id') });
+        });
+    });
+</script>

@@ -1,0 +1,81 @@
+.HDFSSelectableResultsTable {
+    clear:both;
+    padding:0px;
+    _padding:0px 5px;
+    
+}
+
+.HDFSSelectableResultsTable .empty_results {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.HDFSSelectableResultsTable .simpleResultsTableWrapper {
+	overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0px 10px;
+    _padding: 0px;
+    _width:100%;
+    *position:relative;
+}
+/*SPL-49659 - fix IE9 hover bug*/
+.ie9 .HDFSSelectableResultsTable .simpleResultsTableWrapper {
+    min-height:0;
+    margin-bottom:auto;
+}
+.HDFSSelectableResultsTable .simpleTableOptions {
+    height:32px;
+    line-height: 32px;
+    text-align:right; 
+    padding:0px 10px;  
+}
+.HDFSSelectableResultsTable table.simpleResultsTable {
+    white-space:nowrap;   
+}
+.HDFSSelectableResultsTable table.simpleResultsTable td.pos,
+.HDFSSelectableResultsTable table.simpleResultsTable th.pos {
+    padding: 3px 10px 5px 5px;
+    width: 15px;
+}
+.HDFSSelectableResultsTable input {
+    border-style: none;
+    margin: 0;
+    padding: 0;
+}
+.HDFSSelectableResultsTable table.simpleResultsTable td.selectable {
+    padding: 6px 3px;
+    width: 30px;
+    text-align: center;
+}
+.HDFSSelectableResultsTable tr.selection-toggle-row td {
+    border-style: none;
+}
+.HDFSSelectableResultsTable .toggle-all-label {
+    color: #999;
+}
+.HDFSSelectableResultsTableMenuTemplate {
+    display: none;
+}
+.HDFSSelectableResultsTable splMenu ul {
+    margin-top: -2px
+}
+.HDFSSelectableResultsTable table.splTable tr td.selected,
+.HDFSSelectableResultsTable table.splTable tr th.selected,
+.HDFSSelectableResultsTable table.splTable tr.selected td,
+.HDFSSelectableResultsTable table.splTable tr div.selected {
+    background-color:#DCD28B;
+    color:#fff;
+}
+.HDFSSelectableResultsTable table.enableMouseover tr td.d {
+    color:#1a7996;
+    cursor:pointer;
+}
+
+.HDFSSelectableResultsTable table th a {
+    cursor:pointer;
+}
+
+.HDFSSelectableResultsTable .toggle-all .active {
+    font-weight: bold;
+}
+

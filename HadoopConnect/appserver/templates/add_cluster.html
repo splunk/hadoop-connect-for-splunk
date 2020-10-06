@@ -1,0 +1,283 @@
+<%page expression_filter="h"/>
+<%inherit file="/layout/base.html"/>
+<%namespace file="/lib.html" import="manager_save_search_link"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+<%namespace name="helpers" file="//view/_helpers.html" import="*"/>
+
+<%def name="custom_css()">
+  <%lib:stylesheet_tags files="${['/static/css/view.css','/static/css/skins/default/default.css', '/static/app/%s/application.css' % app, '/static/app/%s/help_tooltip.css' % app]}"/>
+  <%lib:script_tags files="${['/static/app/%s/application.js' % app, '/static/app/%s/help_tooltip.js' % app]}" />
+</%def>
+<%!
+   def is_edit(cluster, edit):
+       return edit and cluster.name and cluster.name.strip() != ''
+%>
+    <div class="clusters dashboardCell">
+        <div class="splHeader splHeader-dashboard">
+            % if is_edit(cluster, edit):
+            	<h2 title="Edit HDFS Cluster">Edit HDFS Cluster</h2>
+	    % else:
+            	<h2 title="Add New HDFS Cluster">Add new HDFS Cluster</h2>
+            %endif
+        </div>
+
+        <div class="cluster">
+            <div class="messages">
+                %  if cluster and getattr(cluster, 'errors', False):
+                    % for error in cluster.errors:
+                        <p class="error"> ${error}</p>
+                    % endfor
+                % endif
+            </div>
+
+            <div class="cluster-type-selection">
+                % if is_edit(cluster, edit):
+                <div class="cluster-type">
+                    <input type="radio" name="clusterType" value="remote" id="remoteClusterRadio" disabled="disabled" ${'checked="checked" ' if cluster.uri.startswith('hdfs://') else ''}/>
+                    <label for="remoteClusterRadio">Remote HDFS</label>
+                </div>
+                <div class="cluster-type">
+                    <input type="radio" name="clusterType" value="local" id="localClusterRadio" disabled="disabled" ${'checked="checked" ' if cluster.uri.startswith('file://') else ''}/>
+                    <label for="localClusterRadio">Locally mounted Hadoop</label>
+                </div>
+                % else:
+                <div class="cluster-type">
+                    <input type="radio" name="clusterType" value="remote" id="remoteClusterRadio" ${'checked="checked" ' if selectedTab == 'remote' else ''}/>
+                    <label for="remoteClusterRadio">Remote HDFS</label>
+                </div>
+                <div class="cluster-type">
+                    <input type="radio" name="clusterType" value="local" id="localClusterRadio" ${'checked="local" ' if selectedTab == 'local' else ''}/>
+                    <label for="localClusterRadio">Locally mounted Hadoop</label>
+                </div>
+                %endif
+            </div>
+
+% if not is_edit(cluster, edit) or cluster.uri.startswith('hdfs://'):
+            <form class="clusterForm splClearfix" data-redirect="${make_url(['app', app, 'config_clusters'])}" action="${make_url(['custom', app , 'config', 'clusters', 'add'])}" target="_top" method="POST" name="addCluster" id="remoteCluster" style="${ '' if selectedTab == 'remote' else 'display:none;' }}">
+                ${csrf_hidden_input()}
+                <input type="hidden" name="id" value="${cluster.id or ''}"/>
+                <input type="hidden" name="type" value="remote" />
+
+                <div class="control-group">
+                    <label title="$cluster_namenode" for="name" class="help">
+                        ${_('HDFS URI')}
+                        <span class="required">*</span>
+                    </label>
+                    % if is_edit(cluster, edit):
+                         <input type="hidden" id="name" name="name" value="${cluster.name}" />
+                         <span> ${cluster.name} </span>
+                    % else:
+                        <input class="input-long" type="text" id="name" name="name" value="${cluster.name}" />
+                        <p class="exampleText"><em>namenode.hadoop.example.com:8020 (non-HA) or hadoop.cluster.logical.name (HA)</em></p>
+                    % endif
+                </div><!--/.control-group-->
+
+                <div class="control-group">
+                    <label for="hadoop_home" title="$cluster_hadoop_home" class="help">
+                        ${_('HADOOP_HOME')}
+                        <span class="required">*</span>
+                    </label>
+                    <input class="input-long" type="text" id="hadoop_home" name="hadoop_home" value="${cluster.hadoop_home or ''}"/>
+                    <p class="exampleText"><em>/usr/hadoop/latest</em></p>
+                </div><!--/.control-group-->
+
+                <div class="control-group">
+                    <label for="java_home" title="$cluster_java_home" class="help">
+                        ${_('JAVA_HOME')}
+                        <span class="required">*</span>
+                    </label>
+                    <input class="input-long" type="text" id="java_home" name="java_home" value="${cluster.java_home or ''}"/>
+                    <p class="exampleText"><em>/usr/java/latest</em></p>
+                </div><!--/.control-group-->
+
+
+                <div class="control-group">
+                    <label title="$cluster_http_port" for="namenode_http_port" class="help">
+                        ${_('Namenode HTTP Port')}
+                        <span class="required">*</span>
+                    </label>
+                    <input class="input-long" type="text" id="namenode_http_port" name="namenode_http_port" value="${50070 if not cluster.namenode_http_port else cluster.namenode_http_port}"/>
+                    <p class="exampleText"><em>50070</em></p>
+                </div><!--/.control-group-->
+
+                <div class="control-group">
+                    <input type="checkbox" class="checkbox secure" id="secure" name="secure" value="1" ${"checked=checked" if cluster.isSecure() else ''}/>
+                    <label for="secure" title="$cluster_secure" class="help inline">
+                        ${_('Set Security')}
+                    </label>
+                </div><!--/.control-group-->
+
+
+                <div class="secureOptions" ${'' if cluster.isSecure() else ' style=display:none;'}>
+                    <div class="control-group">
+                        <label for="kerberos_service_principal" title="$cluster_service_principal" class="help">
+                            ${_('HDFS Service Principal')}
+                            <span class="required">*</span>
+                        </label>
+                        <input class="input-long principal_list" id="kerberos_service_principal" name="kerberos_service_principal" value="${cluster.kerberos_service_principal  or ''}"/>
+                        <p class="exampleText"><em>hdfs/_HOST@example.com</em></p>
+                    </div><!--/.control-group-->
+
+                    <div class="control-group">
+                        <label for="auth_to_local" title="$cluster_auth_to_local" class="help">
+                            ${_('Kerberos Principals to Short Names Mapping')}
+                        </label>
+                        <input class="input-long auth_to_local" id="auth_to_local" name="auth_to_local" value="${cluster.auth_to_local  or ''}"/>
+                        <p class="exampleText"><em></em></p>
+                    </div><!--/.control-group-->
+
+                    <div class="control-group">
+                        <label for="kerberos_principal" title="kerberos_service_principal" class="help">
+                            ${_('Select Export Kerberos Principal')}
+                            <span class="required">*</span>
+                        </label>
+                        <select class="input-long principal_list" id="kerberos_principal" name="kerberos_principal">
+                            <option value="">${_('Select a Kerberos Principal')}</option>
+                            <option value="add" ${'selected=true' if getattr(cluster, 'kerberos_principal') == 'add' else ''}>${_('Add New Principal')}</option>
+                            % for principal in principals:
+                                <option value="${principal.name}" ${'selected=true' if getattr(principal, 'name') == getattr(cluster, 'kerberos_principal') else ''}>${principal.name}</option>
+                            % endfor
+                        </select>
+                    </div><!--/.control-group-->
+
+                    <div class="newPrincipal" ${'' if getattr(cluster, 'kerberos_principal') == 'add' else 'style=display:none;'}>
+                        <div class="control-group">
+                            <label for="principal_name" title="$kerberos_principal" class="help">
+                                ${_('Name')}
+                                <span class="required">*</span>
+                            </label>
+                            <input class="input-long" id="principal_name" name="principal_name" ${'value='+principal_name if principal_name else ''} />
+                            <p class="exampleText"><em>exporter@hadoop.example.com</em></p>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="principal_keytab_location" title="$kerberos_keytab_file" class="help">
+                                ${_('Keytab Location on server')}
+                                <span class="required">*</span>
+                            </label>
+                            <input class="input-long" id="principal_keytab_location" name="principal_keytab_location" ${'value='+principal_keytab_location if principal_keytab_location else ''} ></input>
+                            <p class="exampleText"><em>/tmp/exporter.keytab</em></p>
+                        </div><!--/.control-group-->
+                    </div><!--/.newPrincipal-->
+                </div><!--/.secureOptions-->
+
+
+                <div class="control-group">
+                    <input type="checkbox" class="checkbox haEnabled" id="ha_enabled" name="ha" value="1" ${"checked=checked" if cluster.isHaEnabled() else ''}/>
+                    <label for="ha_enabled" title="$cluster_ha_enabled" class="help inline">
+                        ${_('HA enabled')}
+                    </label>
+                </div><!--/.control-group-->
+
+                <div class="haOptions" ${'' if cluster.isHaEnabled() else ' style=display:none;'}>
+                    <div class="control-group">
+                        <label for="hdfs_site" title="$cluster_hdfs_site" class="help">
+                            ${_('HDFS Site')}
+                        </label>
+                        <textarea id="hdfs_site" name="hdfs_site">${cluster.hdfs_site  or ''}</textarea>
+                        <p class="exampleText"><em>XML data here</em></p>
+                    </div><!--/.control-group-->
+                </div><!--/.haOptions-->
+
+                <ul class="buttons splClearfix">
+                    <li class="left">
+                        <a href="${make_url(['app', app, 'config_clusters'])}" class="splButton-secondary cancel" target="_top">${_('Cancel')}</a>
+                    </li>
+                    <li class="right">
+                        <input class="hdfsButton-primary" type="submit" id="submitRemoteCluster" value="Save"/>
+                    </li>
+                </ul>
+            </form>
+% endif
+% if not is_edit(cluster, edit) or cluster.uri.startswith('file://'):
+            <form class="clusterForm splClearfix" data-redirect="${make_url(['app', app, 'config_clusters'])}" action="${make_url(['custom', app , 'config', 'clusters', 'add'])}" target="_top" method="POST" name="addCluster" id="localCluster" style="${ '' if selectedTab == 'local' else 'display:none;' }}">
+                ${csrf_hidden_input()}
+                <input type="hidden" name="id" value="${cluster.id or ''}"/>
+                <input type="hidden" name="type" value="local" />
+
+                <div class="control-group">
+                    <label title="$cluster_local_name" for="localName" class="help">
+                        ${_('Name')}
+                        <span class="required">*</span>
+                    </label>
+                    % if is_edit(cluster, edit):
+                         <input type="hidden" name="name" value="${cluster.name}" />
+                         <span> ${cluster.name} </span>
+                    % else:
+                        <input class="input-long" type="text" id="localName" name="name" value="${cluster.name}" />
+                        <p class="exampleText"><em>MountedHadoop</em></p>
+                    % endif
+                </div><!--/.control-group-->
+
+                <div class="control-group">
+                    <label for="hadoop_mount" title="$cluster_local_mount" class="help">
+                        ${_('Mount')}
+                        <span class="required">*</span>
+                    </label>
+                    <input class="input-long" type="text" id="hadoop_mount" name="local_mount" value="${cluster.uri[len('file://'):] if is_edit(cluster,edit) else ''}"/>
+                    <p class="exampleText"><em>/mnt/hadoop</em></p>
+                </div><!--/.control-group-->
+
+                <ul class="buttons splClearfix">
+                    <li class="left">
+                        <a href="${make_url(['app', app, 'config_clusters'])}" class="splButton-secondary cancel" target="_top">${_('Cancel')}</a>
+                    </li>
+                    <li class="right">
+                        <input class="hdfsButton-primary" type="submit" id="submitLocalCluster" value="Save" />
+                    </li>
+                </ul>
+
+            </form>
+% endif
+        </div>
+    </div>
+
+<script type="text/javascript">
+    function makeClusterSecure(evt){
+        var $target = $(evt.target);
+        if ($target.is(':checked')) {
+            $('.secureOptions').show();
+        }
+        else {
+            $('.secureOptions').hide();
+        }
+    }
+    function enableHa(evt){
+        var $target = $(evt.target);
+        if ($target.is(':checked')) {
+            $('.haOptions').show();
+        }
+        else {
+            $('.haOptions').hide();
+        }
+    }
+
+    function addPrincipal(evt){
+        var $target = $(evt.target);
+        if ($target.val() =="add") {
+            $(".newPrincipal").show();
+        }
+        else {
+            $(".newPrincipal").hide();
+        }
+    }
+
+
+    $(function(){
+        % if not is_edit(cluster, edit):
+        function switchClusterType() {
+            $('#remoteCluster')[ $('.cluster-type-selection input[value=remote]').is(':checked') ? 'show' : 'hide' ]();
+            $('#localCluster')[ $('.cluster-type-selection input[value=local]').is(':checked') ? 'show' : 'hide' ]();
+        }
+        $('.cluster-type-selection input').change(switchClusterType);
+        % endif
+        $('form').submit(asyncSubmit);
+        $(".principal_list").change(addPrincipal);
+        $(".secure").bind('click', makeClusterSecure);
+        $(".haEnabled").bind('click', enableHa);
+
+        if ( $('.principal_list').val() == 'add' ) {
+            $(".newPrincipal").show();
+        }
+    });
+</script>

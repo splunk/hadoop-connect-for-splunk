@@ -1,0 +1,11 @@
+[eai:conf-export]
+capability.read = hc_read
+capability.write = hc_write
+
+[eai:conf-principals]
+capability.read = hc_read
+capability.write = hc_write
+
+[eai:conf-clusters]
+capability.read = hc_read
+capability.write = hc_write

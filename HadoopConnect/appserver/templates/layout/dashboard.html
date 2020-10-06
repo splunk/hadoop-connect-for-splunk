@@ -1,0 +1,9 @@
+<%inherit file="//view/dashboard.html" />
+<%namespace file="//view/_helpers.html" import="*"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+
+<%def name="js()">
+    <% parent.js() %>
+    <%lib:script_tags files="${['/static/app/HadoopConnect/module_loader.43compat.js']}" />
+</%def>
+

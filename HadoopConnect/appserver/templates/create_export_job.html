@@ -1,0 +1,188 @@
+<%page expression_filter="h"/>
+<%inherit file="//layout/base.html" />
+<%namespace file="/lib.html" import="manager_save_search_link"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+<%namespace name="helpers" file="//view/_helpers.html" import="*"/>
+<%lib:script_tags files="${['/static/app/%s/jquery-1.8.3.min.js' % app, '/static/app/%s/jquery-ui-1.9.0.min.js' % app, '/static/app/%s/jquery.trap.min.js' % app, '/static/app/%s/help_tooltip.js' % app, '/static/app/%s/application.js' % app]}" />
+<%lib:stylesheet_tags files="${['/static/app/%s/jquery-ui.css' % app, '/static/app/%s/slider.css' % app, '/static/app/%s/help_tooltip.css' % app]}"/>
+
+<script type="text/javascript">
+    $( "#slider1" ).slider({
+        value: 2,
+        min: 0,
+        max: 9,
+        step: 1,
+        slide: function( event, ui ) {
+            $( "input[name=compress_level]" ).val( ui.value );
+        }
+    }).each(function() {
+        // Add labels to slider whose values
+        // are specified by min, max
+
+        // Get the options for this slider (specified above)
+        var opt = $(this).data().slider.options;
+
+        // Get the number of possible values
+        var vals = opt.max - opt.min;
+
+        // Position the labels
+        for (var i = 0; i <= vals; i++) {
+            // Create a new element and position it with percentages
+            var el = $('<label>'+i+'</label>').css('left',(i/vals*100)+'%');
+            // Add the element inside #slider
+            $( "#slider1" ).append(el);
+        }
+    });
+</script>
+    <form action="${make_url(['custom', app , 'exportjobs', 'submitREDModal'])}" method="POST" name="addRED" id="addRED">
+        ${csrf_hidden_input()}
+        <input type="hidden" id="search" name="search" value="${search or ''}"/>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="col1">
+                        <label for="name" title="$export_name" class="help"><span class="required">*</span> ${_('Name')}</label>
+                    </td>
+                    <td class="col2">
+                        <input type="text" class="input-wide" id="name" name="name" value="${exportJob.name or ''}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label for="format" title="$export_format" class="help"><span class="required">*</span> ${_('Format')}</label>
+                    </td>
+
+                    <td class="col2">
+
+                     <select id="format" name="format" class="input-wide">
+                        <option value="raw">${_('raw')}</option>
+                        <option value="xml">${_('xml')}</option>
+                        <option value="json">${_('json')}</option>
+                        <option value="csv">${_('csv')}</option>
+                        <option value="tsv">${_('tsv')}</option>
+                     </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label for="fields" title="$export_fields" class="help"><span class="required">*</span> ${_('Fields')}</label>
+                    </td>
+                    <td class="col2">
+                        <input type="text" class="input-wide" id="fields" name="fields" value="${exportJob.fields or ''}"/>
+                    </td>
+                </tr>
+                <tr class="note">
+                    <td class="col1"></td>
+                    <td class="col2">
+                        <p class="note">${_('(e.g. host, source, _raw)')}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label for="uri" title="$export_cluster" class="help"><span class="required">*</span> ${_('HDFS Cluster')}</label>
+                    </td>
+                    <td class="col2">
+                        <select class="input-wide principal-list" name="uri">
+                            <option value="">${_('Select a cluster')}</option>
+                            % for cluster in clusters:
+                            <option value="${cluster.getURI()}" ${'selected=true' if getattr(exportJob, 'uri') == cluster.getURI() else ''}>${cluster.name}</option>
+                            % endfor
+                        </select>
+                    </td>
+                </tr>
+                <tr class="note">
+                    <td class="col1"></td>
+                    <td class="col2">
+                        <p class="note">${_('(e.g. hdfs://hdfs.example.com:9000/)')}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label for="path" title="$export_base_path" class="help"><span class="required">*</span> ${_('HDFS base path')}</label>
+                    </td>
+                    <td class="col2">
+                        <input type="text" class="input-wide" id="path" name="base_path" value="${exportJob.base_path or ''}"/>
+                    </td>
+                </tr>
+                <tr class="note">
+                    <td class="col1"></td>
+                    <td class="col2">
+                        <p class="note">${_('(e.g. /home/export/data/)')}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label title="$export_partition" class="help">${_('Partition by:')}</label>
+                    </td>
+                    <td class="col2">
+                        <div class="partitioning">
+                            <input type="checkbox" class="checkbox" id="partition_date"   value="1" name="partition_date" ${'checked="checked"' if exportJob.hasPartitionField('date') else ''}/>
+                            <label for="partition_date">${_('Date')}</label>
+
+                            <input type="checkbox" class="checkbox" id="partition_hour"   value="1" name="partition_hour" ${'checked="checked"' if exportJob.hasPartitionField('hour') else ''}/>
+                            <label for="partition_hour">${_('Hour')}</label>
+
+                            <input type="checkbox" class="checkbox" id="partition_host"   value="1" name="partition_host" ${'checked="checked"' if exportJob.hasPartitionField('host') else ''}/>
+                            <label for="partition_host">${_('Host')}</label>
+
+                            <input type="checkbox" class="checkbox" id="partition_sourcetype" value="1" name="partition_sourcetype" ${'checked="checked"' if exportJob.hasPartitionField('sourcetype') else ''}/>
+                            <label for="partition_sourcetype">${_('Sourcetype')}</label>
+
+                            <input type="checkbox" class="checkbox" id="partition_source" value="1" name="partition_source" ${'checked="checked"' if exportJob.hasPartitionField('source') else ''}/>
+                            <label for="partition_source">${_('Source')}</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col1">
+                        <label title="$export_all_new" class="help">${_('Export from:')}</label>
+                    </td>
+                    <td class="col2">
+                        <input type="text" class="input-wide datetime" name="datetime" />
+                        <input type="hidden" name="starttime" value="${exportJob.starttime or ''}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col1">
+                        <label title="$export_frequency" class="help">${_('Export frequency:')}</label>
+                    </td>
+
+                    <td class="col2">
+
+                     <select name="cron_schedule" class="input-wide">
+                        <option value="*/5 * * * *">${_('Every 5 minutes')}</option>
+                        <option value="*/15 * * * *">${_('Every 15 minutes')}</option>
+                        <option value="*/30 * * * *">${_('Every 30 minutes')}</option>
+                        <option value="0 * * * *" selected="selected">${_('Every hour')}</option>
+                        <option value="0 */4 * * *">${_('Every 4 hours')}</option>
+                        <option value="0 0/12 * * *">${_('Every 12 hours')}</option>
+                        <option value="0 0 * * *">${_('Every day')}</option>
+                     </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label title="$export_parallel_searches" class="help">${_('Parallel searches:')}</label>
+                    </td>
+
+                    <td class="col2">
+                        <input type="text" name="parallel_searches" class="input-wide" value="${exportJob.parallel_searches or ''}"/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="col1">
+                        <label title="$export_compression_level" class="help">${_('Compression level:')}</label>
+                    </td>
+
+                    <td class="col2">
+                        <div id="slider1"></div>
+                        <input type="hidden" name="compress_level" value="${exportJob.compress_level or ''}"/>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </form>

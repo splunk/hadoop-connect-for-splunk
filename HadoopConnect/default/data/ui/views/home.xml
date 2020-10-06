@@ -1,0 +1,118 @@
+<view autoCancelInterval="100" isPersistable="true" isSticky="true" isVisible="true" objectMode="Dashboard" onunloadCancelJobs="false" template="dashboard.html">
+  <label>Home</label>
+
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="HDFSAppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="clearOnJobDispatch">False</param>
+    <param name="maxSize">1</param>
+  </module>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">splunk.search.job</param>
+    <param name="clearOnJobDispatch">True</param>
+    <param name="maxSize">1</param>
+  </module>
+  <module name="HDFSFTR" layoutPanel="appHeader">
+      <param name="configLink">/app/HadoopConnect/config_clusters</param>
+  </module>
+
+  <module name="HDFSCustomContent" layoutPanel="panel_row1_col1">
+      <param name="url">/custom/HadoopConnect/exportjobs/list</param>
+      <param name="scripts">
+          <list>/static/app/HadoopConnect/help_tooltip.js</list>
+          <list>/static/app/HadoopConnect/job_list.js</list>
+      </param>
+      <param name="stylesheets">
+          <list>/static/app/HadoopConnect/help_tooltip.css</list>
+      </param>
+      <param name="staticContent"><![CDATA[
+        <div class="REDJobs">
+            <div class="splHeader splHeader-dashboard">
+                <h2 title="Scheduled Exports">Scheduled Exports</h2>
+                <a href="/app/HadoopConnect/buildexport" target="_top" class="hdfsButton-primary" title="Build Export">Build Export</a>
+                <a href="/app/HadoopConnect/export_jobs" target="_top" class="hdfsButton-primary" style="margin-left: 10px;" title="More Details">More Details</a>
+            </div>
+            <div class="messages"></div>
+            <div class="Paginator splClearfix" data-count="10">
+              <span class="count splClearfix"></span>
+              <ul class="splClearfix">
+                <li class="previous"><a href="#">&laquo;prev</a></li>
+                <li class="next"><a href="#">next&raquo;</a></li>
+              </ul>
+            </div>
+            <table class="splTable">
+                <thead>
+                    <tr>
+                        <th title="$export_name" class="help">Name</th>
+                        <th title="$export_next_run" class="help">Next Scheduled Run</th>
+                        <th title="$export_last_completed" class="help">Last Completed Run</th>
+                        <th title="$export_frequency" class="help">Frequency</th>
+                        <th title="$export_load_factor" class="help">Load Factor</th>
+                        <th style="width:25%" title="$export_actions" class="help">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+      ]]></param>
+      <param name="destSelector">.custom-content table tbody</param>
+      <module name="Paginator">
+          <param name="entityName">results</param>
+          <module name="NullModule" />
+      </module>
+  </module>
+
+  <module name="StaticContentSample" layoutPanel="panel_row2_col1" >
+    <param name="text"><![CDATA[<div class="splHeader splHeader-dashboard">
+            <h2 title="Indexed HDFS Data by Source">Indexed HDFS Data by Source</h2>
+            <a href="/manager/HadoopConnect/data/inputs/hdfs" target="_top" class="hdfsButton-primary" title="Manage HDFS Inputs">Manage HDFS Inputs</a>
+        ]]></param>
+  </module>
+
+  <module name="HiddenSearch" layoutPanel="panel_row2_col1" autoRun="True">
+    <param name="search">|metadata index=* type=sources | search source=hdfs://* | eval source=if(len(source)>85, substr(source, 0, 40) + " ... " + substr(source,len(source)-40), source) | rename source AS Source, totalCount AS Count | table Count Source</param>
+    <module name="JobProgressIndicator">
+      <module name="EnablePreview">
+        <param name="enable">True</param>
+        <param name="display">False</param>
+        <module name="SimpleResultsTable">
+          <param name="drilldown">none</param>
+          <param name="displayRowNumbers">False</param>
+        </module>
+      </module>
+    </module>
+  </module>
+
+  <module name="StaticContentSample" layoutPanel="panel_row2_col2" >
+    <param name="text"><![CDATA[<div class="splHeader splHeader-dashboard">
+            <h2 title="Explore Cluster">Explore Cluster</h2>
+            <a href="/app/HadoopConnect/config_add_cluster" target="_top" class="hdfsButton-primary" title="Add Cluster">Add Cluster</a>
+        ]]></param>
+  </module>
+  <module name="EntityLinkLister" group="" layoutPanel="panel_row2_col2">
+    <param name="entityPath">admin/clusters/</param>
+    <param name="settingToCreate">form.Location</param>
+    <param name="namespace">HadoopConnect</param>
+    <param name="owner">nobody</param>
+    <param name="entityFieldsToDisplay">
+      <list>
+        <param name="multiLabel">%(name)s</param>
+        <param name="value">uri</param>
+      </list>
+    </param>
+    <module name="HDFSSubmitButton">
+      <param name="updatePermalink">True</param>
+      <param name="allowSoftSubmit">True</param>
+      <param name="label">Go</param>
+      <param name="visible">false</param>
+      <module name="HDFSSimpleDrilldown">
+        <param name="newWindow">False</param>
+        <param name="links">
+          <param name="*">/app/HadoopConnect/explore?form.Location=$form.Location$</param>
+        </param>
+      </module>
+    </module>
+  </module>
+</view>

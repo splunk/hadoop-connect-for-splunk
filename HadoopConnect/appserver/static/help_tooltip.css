@@ -1,0 +1,39 @@
+.tooltip_content {
+    overflow:hidden;
+    position: absolute;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px #B9B9B9;
+    max-width: 200px;
+    color: white;
+    background: #a8a6a6; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2E4YTZhNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4MDgwODAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #a8a6a6 0%, #808080 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a8a6a6), color-stop(100%,#808080)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #a8a6a6 0%,#808080 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #a8a6a6 0%,#808080 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #a8a6a6 0%,#808080 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #a8a6a6 0%,#808080 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8a6a6', endColorstr='#808080',GradientType=0 ); /* IE6-8 */
+    padding: 10px;
+    line-height: 155%;
+    z-index: 10000;
+}
+.tooltip_content img {
+    padding: 0 5px 0 0;
+    float: left;
+    position: relative;
+    top: -7px;
+    left: -7px;
+}
+.tooltip_content div {
+    margin: 10px 10px 10px 4px;
+    vertical-align: top;
+    float: right;
+    display: inline;
+    max-width: 150px;
+}
+.tooltip {
+    padding-left: 5px;
+    vertical-align: bottom;
+}

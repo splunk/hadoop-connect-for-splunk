@@ -1,0 +1,138 @@
+<view autoCancelInterval="90" isVisible="true" objectMode="SimpleForm"
+onunloadCancelJobs="true" template="HadoopConnect:/templates/layout/dashboard.html" stylesheet="hideFirstColumn.css">
+    <label>Explore</label>
+    <module name="AccountBar" layoutPanel="appHeader" />
+    <module name="HDFSAppBar" layoutPanel="navigationHeader" />
+    <module name="Message" layoutPanel="messaging">
+        <param name="filter">*</param>
+        <param name="clearOnJobDispatch">False</param>
+        <param name="maxSize">1</param>
+    </module>
+    <module name="Message" layoutPanel="messaging">
+        <param name="filter">splunk.search.job</param>
+        <param name="clearOnJobDispatch">True</param>
+        <param name="maxSize">1</param>
+    </module>
+    <module name="HDFSFTR" layoutPanel="appHeader">
+        <param name="configLink">/app/HadoopConnect/config_clusters</param>
+    </module>
+    <module name="HDFSFieldHeader" layoutPanel="panel_row1_col1">
+        <param name="replacementMap">
+            <param name="arg">
+                <param name="scheduledExport">
+                    <param name="value" />
+                </param>
+            </param>
+        </param>
+        <param name="field">scheduledExport</param>
+        <param name="class">splHeader splHeader-dashboard</param>
+        <param name="pre">Export Details: </param>
+        <param name="intention">
+            <param name="name">stringreplace</param>
+            <param name="arg">
+                <param name="scheduledExport">
+                    <param name="fillOnEmpty">True</param>
+                </param>
+            </param>
+        </param>
+        <module name="HDFSFieldHeader">
+            <param name="replacementMap">
+                <param name="arg">
+                    <param name="Location">
+                        <param name="value" />
+                    </param>
+                </param>
+            </param>
+            <param name="field">Location</param>
+            <param name="intention">
+                <param name="name">stringreplace</param>
+                <param name="arg">
+                    <param name="Location">
+                        <param name="fillOnEmpty">True</param>
+                    </param>
+                </param>
+            </param>
+            <module name="HDFSSubmitButton">
+                <param name="updatePermalink">True</param>
+                <param name="allowSoftSubmit">True</param>
+                <param name="label">Go</param>
+                <param name="visible">False</param>
+                <module name="HiddenSearch"
+                autoRun="True">
+                    <param name="search">
+                        <![CDATA[| hdfs lsr $Location$ | search type=file | search path!=*cursor | rex field=source "(?<uri>[^:]*://[^/]*)/" | rex field=path "^(?<path>.+)/[^/]+$" | eval Location=uri+path | stats count by Location uri| eval path = replace(Location, "$Location$", "") | rename count as Chunks | rename path as Partition | search Partition!="" | table Location Chunks Partition]]>
+                    </param>
+                    <param name="groupLabel">Files in dir</param>
+                    <param name="earliest">0</param>
+                    <module name="Paginator">
+                        <param name="count">10</param>
+                        <param name="entityName">results</param>
+                        <module name="EnablePreview">
+                            <param name="enable">True</param>
+                            <param name="display">False</param>
+                            <module name="SimpleResultsTable">
+                                <param name="drilldown">row</param>
+                                <param name="entityName">results</param>
+                                <param name="displayRowNumbers">False</param>
+                                <param name="allowTransformedFieldSelect">True</param>
+                                <module name="HiddenSearch" layoutPanel="panel_row2_col1" group="HDFS Explore"
+                                autoRun="False">
+                                    <param name="search">
+                                        <![CDATA[| hdfs ls $Location$ | rex field=source "(?<uri>[^:]*://[^/]*)/" | eval Location=uri+path | eval size = if(type=="dir","",size)| rex field=Location "/(?<Name>[^/]*$)"| rename size as Size type as Type | table Location Type Name Size ]]>
+                                    </param>
+                                    <param name="groupLabel">All files under dir</param>
+                                    <param name="earliest">0</param>
+                                    <module name="HDFSFileBreadCrumb">
+                                        <param name="replacementMap">
+                                            <param name="arg">
+                                                <param name="Location">
+                                                    <param name="value" />
+                                                </param>
+                                            </param>
+                                        </param>
+                                        <param name="field">Location</param>
+                                        <param name="label">Go To:</param>
+                                        <param name="intention">
+                                            <param name="name">stringreplace</param>
+                                            <param name="arg">
+                                                <param name="Location">
+                                                    <param name="fillOnEmpty">True</param>
+                                                </param>
+                                            </param>
+                                        </param>
+                                        <module name="HDFSSubmitButton">
+                                            <param name="updatePermalink">True</param>
+                                            <param name="allowSoftSubmit">True</param>
+                                            <param name="label">Go</param>
+                                            <module name="Paginator">
+                                                <param name="count">10</param>
+                                                <param name="entityName">results</param>
+                                                <module name="EnablePreview">
+                                                    <param name="enable">True</param>
+                                                    <param name="display">False</param>
+                                                    <module name="HDFSSimpleFileTable">
+                                                        <param name="drilldown">row</param>
+                                                        <param name="entityName">results</param>
+                                                        <param name="displayRowNumbers">False</param>
+                                                        <param name="allowTransformedFieldSelect">True</param>
+                                                            <module name="HDFSSimpleDrilldown">
+                                                                <param name="newWindow">True</param>
+                                                                <param name="links">
+                                                                    <param name="*">/app/search/flashtimeline?q=| hdfs read $click.value$</param>
+                                                                </param>
+                                                            </module>
+                                                        <module name="Gimp" />
+                                                    </module>
+                                                </module>
+                                            </module>
+                                        </module>
+                                    </module>
+                                </module>
+                            </module>
+                        </module>
+                    </module>
+                </module>
+            </module>
+        </module>
+    </module>
+</view>

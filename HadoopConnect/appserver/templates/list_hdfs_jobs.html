@@ -1,0 +1,150 @@
+<%page expression_filter="h"/>
+<%namespace name="lib" file="//lib.html" import="*"/>
+<%namespace name="helpers" file="//view/_helpers.html" import="*"/>
+<%!
+    import logging,json
+    from sets import Set
+    from splunk.appserver.mrsparkle.lib import util
+    from math import floor,ceil
+
+    logger = logging.getLogger('splunk.module.setup')
+    from datetime import datetime
+    import splunk.version
+
+    def supportsForceAction():
+       v = splunk.version.__version__
+       return not v.startswith('3.') and not v.startswith('4.')
+
+
+    # displays a time in the following format:
+    # Future: in <some humanly readable stuff> @ <rendered time>
+    # Past:  <some humanly readable stuff> ago @ <rendered time>
+    # humanly readable is as follows: ((<days>d (<hours>h))? <minutes>min)| < 1 min
+    # rendered time: date is only rendered iff the given time is more than 24 hour away
+    # e.g. in 1h 12m @ 18:12 PDT
+    # e.g. 1h 12m ago @ 17:00 PDT
+    def renderHumanlyReadableTime(t):
+        import time
+        try:
+               t = time.strptime(t, "%Y-%m-%d %H:%M:%S %Z")
+               t = time.mktime(t)
+        except:
+               return t
+
+        now = time.time()
+        et  = now
+        lt  = t
+
+        if now > t:
+           lt = now
+           et = t
+
+        d = lt - et
+        result = ''
+        if d > 60:
+           if d/86400 >= 1:
+              days   = int(d/86400)
+              result = "%dd " % (days)
+              d      = d % 86400
+
+           hours = int(d/3600)
+           mins  = int( (d%3600 + 30)/60)
+
+           if len(result) > 0 or hours > 0:
+              result +=  ("%dh " % (hours))
+
+           result +=  ("%dmin " % (mins))
+        else:
+           result = "< 1min"
+
+        if now > t:
+           result += " ago"
+
+        format = "%Y-%m-%d %H:%M %Z"
+        if lt - et < 86400: # do not display the date if it time is less that 24 hours
+           format = "%H:%M %Z"
+        result += " @ %s" % (time.strftime(format, time.localtime(t)))
+
+        return result
+
+    FREQUENCIES = {
+        "*/5 * * * *": ("Every 5 minutes", 5*60),
+        "*/15 * * * *": ("Every 15 minutes", 15*60),
+        "*/30 * * * *": ("Every 30 minutes",30*60),
+        "0 * * * *": ("Hourly",3600),
+        "0 */4 * * *": ("Every 4 hours",4*3600),
+        "0 0/12 * * *": ("Every 12 hours", 12*3600),
+        "0 0 * * *": ("Daily",86400)
+    }
+
+    def get_last_completed_run(item):
+        if item.lastevent is not None:
+            import time
+
+            diff = time.time()-time.mktime(item.lastevent.timetuple())
+
+            cls = 'normal'
+            if item.cron_schedule in FREQUENCIES:
+                factor = diff/FREQUENCIES[item.cron_schedule][1]
+                if factor > 2: cls = "lag-error"
+                elif factor > 1: cls = "lag-warn"
+
+            if diff <= 1:
+                return '<span class="%s">%s</span>' % (cls,'moments ago')
+            elif diff < 60:
+                return '<span class="%s">%s</span>' % (cls,'%d seconds ago' % round(diff))
+            elif diff < 3600:
+                return '<span class="%s">%s</span>' % (cls,'%d min ago' % round(diff/60))
+            elif diff < 86400:
+                h = floor(diff/3600)
+                diff = diff-h*3600
+                return '<span class="%s">%s</span>' % (cls, '%d %s %d min ago' % (h, h == 1 and 'hour' or 'hours', round(diff/60)) )
+            else:
+                days = floor(diff/86400)
+                return '<span class="%s">%d %s ago</span>' % (cls, days, days == 1 and 'day' or 'days')
+        else:
+            return '<span class="never">%s</span>' % _('Never')
+
+    def get_frequency(item):
+        schedule = item.cron_schedule
+        return FREQUENCIES[schedule][0] if schedule in FREQUENCIES else schedule
+
+%>
+<%def name="get_status_content(item)">
+        %if not getattr(item.schedule, 'is_scheduled', False):
+            <span class="status paused">${_('Paused')}</span>
+        %elif item.status==None or item.status=='done':
+            <span class="status">${renderHumanlyReadableTime(item.next_scheduled_time)}</span>
+        %elif item.status=='failed':
+            <span class="status-failed">Last Run Failed: Next Run in ${renderHumanlyReadableTime(item.next_scheduled_time)}</span>
+        %else:
+            <span class="status">${_('Running: %s' % item.status)}</span>
+        %endif
+    </span>
+</%def>
+
+% for item in exportJobs:
+    <tr style="display: none;">
+        <td><a class="edit" data-id="${item.id}" href="${make_url(['custom', app , 'exportjobs', 'edit'], _qs=dict(id=item.id))}">${item.name}</a></td>
+        <td>${get_status_content(item)}</td>
+        <td>${get_last_completed_run(item)|n}</td>
+        <td class="frequency">${get_frequency(item)}</td>
+        <td>${"%.2f" % round(100 * item.get_export_factor(),2)}</td>
+        <td>
+            <a href="${make_url(['app', app , 'job_details'], _qs=dict(id=item.id))}" target="_top">${_('Details')}</a> |
+            <a href="${make_url(['app', app, 'explore_job'], _qs=dict(zip(['form.Location', 'form.scheduledExport'],[item.uri +  item.base_path, item.name])))}" target="_top">${_('Explore')}</a> |
+            % if (not item.isPaused() )and supportsForceAction():
+                <a class="action" href="${make_url(['custom', app , 'exportjobs', 'force'])}" data-id="${item.id}">${_('Run now')}</a> |
+            % else:
+                <a href="#" class="disabled" onclick="return false;">${_('Run now')}</a> |
+            % endif
+
+            % if item.isPaused():
+                <a class="action" href="${make_url(['custom', app , 'exportjobs', 'resume'])}" data-id="${item.id}">${_('Resume')}</a> |
+            % else:
+                <a class="action" href="${make_url(['custom', app , 'exportjobs', 'pause'])}" data-id="${item.id}">${_('Pause')}</a> |
+            % endif
+            <a class="action confirm" href="${make_url(['custom', app , 'exportjobs', 'delete'])}" data-confirm-text="${_('Are you sure?')}" data-id="${item.id}">${_('Delete')}</a>
+       </td>
+    </tr>
+% endfor

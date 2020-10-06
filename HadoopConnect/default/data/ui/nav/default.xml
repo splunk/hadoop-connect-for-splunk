@@ -1,0 +1,12 @@
+<nav>
+  <view name='home' default='true' />
+  <view name='buildexport' />
+  <view name='explore' />
+
+  <view name='config_clusters' />
+  <collection label="Troubleshoot">
+    <view name='export_jobs' />
+    <saved source="unclassified" match="error" />
+    <saved source="unclassified" match="metric" />
+  </collection>
+</nav>

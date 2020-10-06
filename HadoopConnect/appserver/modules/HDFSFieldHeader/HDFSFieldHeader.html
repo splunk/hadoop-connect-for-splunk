@@ -1,0 +1,11 @@
+<%page args="module"/>
+
+<div class="HDFSFieldHeader ${module['params'].get('class', '')}">
+    <%
+    default = module['params'].get('q', '')
+    # overwrite the old deprecated param with the new standard 'default' param if it's present.
+    if ('default' in module['params']) :
+        default = module['params'].get('default', '')
+    %>
+    <h2>${module['params'].get('pre','') | h} <span class="DisplayField">${default | h}</span> ${module['params'].get('post','') | h}</h2>
+</div>

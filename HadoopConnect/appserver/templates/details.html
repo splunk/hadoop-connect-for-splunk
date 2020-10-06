@@ -1,0 +1,132 @@
+<%page expression_filter="h"/>
+<%inherit file="//layout/base.html" />
+<%namespace name="lib" file="//lib.html" import="*"/>
+<%namespace name="helpers" file="//view/_helpers.html" import="*"/>
+<%!
+    import logging
+    from sets import Set
+    from splunk.appserver.mrsparkle.lib import util
+
+    logger = logging.getLogger('splunk.module.setup')
+    def getSearchURI(sid):
+        return "/app/HadoopConnect/@go?sid=" + sid
+
+    def getInspectorURI(sid):
+        return "/search/inspector?sid=" + sid
+%>
+
+<%def name="css()">
+    <%coreCSSFiles = [
+        "/static/css/view.css",
+        "/static/css/skins/default/default.css"
+    ] %>
+    <%lib:stylesheet_tags files="${coreCSSFiles}" />
+</%def>
+
+<%def name="custom_css()">
+  <%lib:stylesheet_tags files="${['/static/app/%s/application.css' % app, '/modules/paginator/paginator.css']}"/>
+  <%lib:script_tags files="${['/static/app/%s/application.js' % app]}" />
+</%def>
+
+<div class="dashboardCell links">
+    <div class="splHeader splHeader-dashboard">
+        <h2 title="Scheduled Export Links">Scheduled Export Links</h2>
+    </div>
+    <h4>${_('Browse HDFS path')}</h4>
+    <!-- TODO: need to make this point to our explorer UI rather than flashtimeline -->
+    <a target="_blank" href="${make_url(['app', app , 'explore_job'], _qs=dict(zip(['form.Location', 'form.scheduledExport'],[exportJob.uri.rstrip('/') +  exportJob.base_path.strip(), exportJob.name]))) }">${_('Explore content')}</a>
+
+    % if not exportJob.status == 'done' :
+      <BR><BR>
+      <h4>${_('Search jobs')}</h4>
+      % if exportJob.export_sids :
+         % for sid in exportJob.export_sids.split(','):
+            % if sid != None and len(sid.strip()) > 0:
+              <a target="_blank" href="${getSearchURI(sid)}">Export job (${sid})</a> - <a target="_blank" href="${getInspectorURI(sid)}"> Inspect </a><BR>
+            % endif
+         % endfor
+      % endif
+      % if exportJob.scheduled_sid :
+         <a target="_blank" href="${getSearchURI(exportJob.scheduled_sid)}">Scheduled job</a> - <a target="_blank" href="${getInspectorURI(exportJob.scheduled_sid)}"> Inspect</a><BR>
+      % endif
+   %endif
+
+</div>
+<div class="dashboardCell lscheduled_export_config">
+    <%
+        fields = [ ('name', _('Name')),
+                   ('search', _('Search')),
+                   ('format', _('Format')),
+                   ('fields', _('Fields')),
+                   ('uri', _('HDFS URI')),
+                   ('base_path', _('HDFS Base Path')),
+                   ('partition_fields', _('Partitioning Fields')),
+                   ('parallel_searches', _('Parallel Searches')),
+                   ('cron_schedule', _('Cron Schedule')),
+                 ]
+    %>
+    <div class="splHeader splHeader-dashboard">
+        <h2 title="Scheduled Export Configuration">${_('Scheduled Export Configuration')}</h2>
+    </div>
+    <table class="splTable">
+        <tbody>
+            % for (k, name) in fields:
+                <tr>
+                    <th class="row" style="width: 20%;"><em>${name}:</em></th>
+                    <td>${exportJob.__dict__.get(k, '-')}</td>
+                </tr>
+            %endfor
+        </tbody>
+    </table>
+
+</div>
+<div class="dashboardCell scheduled_export_status">
+    <%
+        fields = [ ('status', _('Status')),
+                   ('next_scheduled_time', _('Next Scheduled Time')),
+                   ('firstevent', _('Earliest Export Point')),
+                   ('lastevent', _('Latest Export Point')),
+                 ]
+    %>
+
+    <div class="splHeader splHeader-dashboard">
+        <h2 title="Scheduled Export Status">${_('Scheduled Export Status')}</h2>
+    </div>
+    <table class="splTable">
+        <tbody>
+            % for (k, name) in fields:
+                <tr>
+                    <th class="row" style="width: 20%;"><em>${name}:</em></th>
+                    <td>${exportJob.__dict__.get(k, '-')}</td>
+                </tr>
+            %endfor
+        </tbody>
+    </table>
+
+</div>
+<div class="dashboardCell scheduled_export_jobs">
+    <%
+        fields = [ ('jobexporterrors', _('Errors')),
+                   ('jobprogress', _('Progress')),
+                   ('jobruntime', _('Total Run Time')),
+                   ('jobstart', _('Time Started')),
+                   ('jobend', _('Time Completed')),
+                   ('jobearliest', _('Earliest Event Included')),
+                   ('lastevent', _('Last Event Included')),
+                 ]
+    %>
+    <div class="splHeader splHeader-dashboard">
+        <h2 title="Scheduled Export Job Status">${_('Scheduled Export Job Status')}</h2>
+    </div>
+    <table class="splTable">
+        <tbody>
+            % for (k, name) in fields:
+                <tr>
+                    <th class="row" style="width: 20%;"><em>${name}:</em></th>
+                    <td>${exportJob.__dict__.get(k, '-')}</td>
+                </tr>
+            %endfor
+        </tbody>
+    </table>
+
+</div>
