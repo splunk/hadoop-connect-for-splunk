@@ -34,12 +34,14 @@ Extract this modified version of the Hadoop Connect App to Splunk 8
 [root@localhost HadoopConnect]# ls
 appserver bin default lib metadata README README.txt
 ```
-#### Configuration - The easy way:
-If you already have the Hadoop Connect App working on Splunk version 7, simply copy the ‘
-local ‘ directory to the new Hadoop Connect App on Splunk version 8
-#### Configuration - The longer way:
-### Without Kerberos and without High Availability Configurations:
+### Configuration - The easy way:
 ****************************************************
+If you already have the Hadoop Connect App working on Splunk version 7, simply copy the ‘
+local ‘ directory to the new Hadoop Connect App on Splunk version 8.
+### Configuration - The longer way:
+****************************************************
+### Without Kerberos and without High Availability Configurations:
+
 For background you can read this documentation:
 https://docs.splunk.com/Documentation/HadoopConnect/latest/DeployHadoopConnect/Configurationfilereference#clusters.conf \
 \
