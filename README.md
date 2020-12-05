@@ -1,6 +1,6 @@
 # Hadoop-Connect-for-Splunk
 [![Version badge](https://img.shields.io/badge/version-1.2.6-brightgreen.svg)](https://github.com/splunk/hadoop-connect-for-splunk/releases/download/1.2.6/HadoopConnect.spl)
-[![License Badge](https://img.shields.io/badge/License-Apache--2.0-informational)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License Badge](https://img.shields.io/badge/License-Apache--2.0-informational)](https://www.apache.org/licenses/LICENSE-2.0)\
 The repo structure is as follows:
 - **[HadoopConnect](https://github.com/splunk/hadoop-connect-for-splunk/tree/main/HadoopConnect)**: This is the folder with the source code.
 - Please find the latest application under releases over [here](https://github.com/splunk/hadoop-connect-for-splunk/releases).
