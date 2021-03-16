@@ -23,8 +23,8 @@ class DelegatingRestHandler(admin.MConfigHandler):
         try:
             namespace = self.appName if namespace == None else namespace
             owner = self.userName if owner == None else owner
-	        logger.error("Entity Path: {}".format(entityPath))
-        return en.getEntities(entityPath, namespace=namespace, owner=owner, search=search, uri=uri, sessionKey = self.getSessionKey(), count=count)
+	    logger.error("Entity Path: {}".format(entityPath))
+            return en.getEntities(entityPath, namespace=namespace, owner=owner, search=search, uri=uri, sessionKey = self.getSessionKey(), count=count)
         except Exception as e:
             logger.exception('Failed to get entities object')
             if isinstance(e, splunk.RESTException):
