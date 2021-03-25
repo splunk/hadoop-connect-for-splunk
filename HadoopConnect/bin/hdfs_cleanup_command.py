@@ -7,7 +7,7 @@ Usage:
 
 import csv,sys,re,time
 import splunk.util, splunk.Intersplunk as isp
-import urlparse
+from urllib.parse import urlparse
 from hadooputils import * 
 from constants import *
 from util import *
@@ -60,7 +60,7 @@ class HDFSCleanCommand:
                 dirs[e.date+e.time+e.path] = e.path
         
         logger.info('before sort, dirs:')
-        for k, v in dirs.iteritems():
+        for k, v in dirs.items():
             logger.info('%s: %s' % (k,v))
                 
         paths = []
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #TODO: improve error messaging, here - right now the messages just go to search.log 
     try:
           hdfs.main()
-    except Exception, e:
+    except Exception as e:
           import traceback
           stack =  traceback.format_exc()
     
@@ -167,7 +167,7 @@ if __name__ == '__main__':
         try:
             if hdfs.info != None:
                hdfs.streamResults('') # just write out the info
-        except Exception, e:
+        except Exception as e:
             logger.exception("Failed to update search result info: ", e)
     sys.exit(rv)
 

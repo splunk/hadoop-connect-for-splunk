@@ -104,12 +104,12 @@ class HadoopEnvManager(object):
    def getEnv(cls, uri, principal=None):
        if cls.namespace == None:
           raise HcException(HCERR0000, {'error':'HadoopEnvManager.init() must be called before getEnv'})
-       import urlparse
+       from urllib.parse import urlparse
        
        #1. parse uri to get just host:port 
        host = None
        port = None
-       p = urlparse.urlparse(uri) 
+       p = urlparse(uri) 
        if p.scheme == 'hdfs':
           host = p.hostname
           port = str(p.port) if p.port != None else None  
@@ -137,7 +137,7 @@ class HadoopEnvManager(object):
                  continue
               rc = clusters[c]
               break
-       except Exception, e:
+       except Exception as e:
           logger.exception('Failed to get conf info from clusters.conf')
  
        result = None
@@ -243,13 +243,13 @@ def getHadoopClusterInfoFromJmx(url, convertKeyToLowercase=False):
         json_object = json.loads(json_raw)
         info = json_object['beans'][0]
         result = {}
-        for k,v in info.iteritems():
+        for k,v in info.items():
             if convertKeyToLowercase:
                 k = k.lower()
             if type(v) is unicode:
                 v = str(v)
             result[k] = v    
-    except Exception, e:
+    except Exception as e:
         logger.exception("Cannot read jmx metrics from url:"+url)
     return result
 
@@ -268,7 +268,7 @@ def getHadoopClusterInfoFromJsp(url, convertKeyToLowercase=False):
         info['percenUsed' if convertKeyToLowercase else 'PercenUsed'] = parseHTMLTag(body, 'DFS Used%')
         info['percentremaining' if convertKeyToLowercase else 'PercentRemaining'] = parseHTMLTag(body, 'DFS Remaining%')
         info['tag.hastate' if convertKeyToLowercase else 'tag.HAState'] = parseHTMLActiveNN(body)
-    except Exception, e:
+    except Exception as e:
         logger.exception("Cannot parse dfshealth.jsp page from url:"+url)
     return info
 
@@ -408,7 +408,8 @@ class HadoopCliJob:
        self.endtime = time.time()
        self.rv = self.process.returncode
        self.process = None
- 
+       logger.error("[---] Waiting here ... raisedOnError: {}".format(str(raiseOnError)))
+       logger.error("[---] new Debug logs: \n Output: {}\nEndtime: {}\nrv: {}\n".format(self.output, self.endtime, self.rv))
        if self.rv != 0:
            # mask failure to remove a non-existant file or directory
            if self.fscmd == "-rm" or self.fscmd == "-rmr":
@@ -435,7 +436,8 @@ class HadoopCliJob:
            return data
        
        tmp = []
-       for l in data.split('\n'):
+       logger.error(data)
+       for l in data.decode("utf-8").split('\n'):
            if len(l.strip()) == 0:
                continue
            if removeDeprecated and l.find('DEPRECATED:') >= 0 and l.find('Warning: $HADOOP_HOME is deprecated') >= 0:
@@ -667,7 +669,7 @@ class HDFSDirLister:
  
     @classmethod
     def _parseLine(cls, line):
-        m = ls_output_re.search(line.strip())
+        m = ls_output_re.search(line.decode('utf-8').strip())
         if m == None:
             return None
         # we assume user name does not have space, but group name or path could have spaces
@@ -839,7 +841,7 @@ if __name__ == '__main__':
    hj = HadoopEnvManager.getCliJob(path) 
    hj.text(path)
    for line in hj.getStdout():
-       print line
+       print (line)
    hj.wait(True) 
    
    #lister = HDFSDirLister()

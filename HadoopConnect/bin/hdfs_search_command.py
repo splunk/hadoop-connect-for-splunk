@@ -21,7 +21,7 @@ from splunklib import client
 import splunk.entity as entity
 
 import splunk.util, splunk.Intersplunk as isp
-import urlparse
+from urllib.parse import urlparse
 from hadooputils import * 
 from constants import *
 from util import *
@@ -29,11 +29,10 @@ import inspect
 try:
     from cStringIO import StringIO
 except:
-    from StringIO import StringIO
-
+    from io import StringIO
 
 def csv_escape(s):
-    return s.replace('"', '""')
+    return str(s).replace('"', '""')
 
 
 @Configuration()
@@ -85,13 +84,13 @@ class HDFSSearchCommand(GeneratingCommand):
             msg = None
             #1. hit the clusters endpoint 
             import splunk.entity as entity
-	    logger.error("Namespace: {}".format(self.namespace))
-	    logger.error("Owner: {}".format(self.owner))
-	    logger.error("sessionKey: {}".format(self.sessionKey))
-	    logger.error("Splunk Debug is here first")
+            logger.error("Namespace: {}".format(self.namespace))
+            logger.error("Owner: {}".format(self.owner))
+            logger.error("sessionKey: {}".format(self.sessionKey))
+            logger.error("Splunk Debug is here first")
             try:
                 self.clusters = entity.getEntities('admin/conf-clusters', namespace=self.namespace, owner=self.owner, sessionKey=self.sessionKey)
-		logger.error(self.clusters)
+                logger.error(self.clusters)
             except Exception as e:
                 logger.exception('Failed to get entities admin/conf-clusters')
                 msg = str(e)
@@ -183,12 +182,13 @@ class HDFSSearchCommand(GeneratingCommand):
         if delim != None:
            cols.extend(fields)
 
-        p = urlparse.urlparse(absfile) 
+        p = urlparse(absfile) 
         
         escaped_path = csv_escape(p.path)
         escaped_host = csv_escape(p.netloc)	 
         temp_dict = {'source':escaped_path, 'host':escaped_host}
         results = []
+        logger.error("[---] New Splunk Debug: reached here\n Temp Dict: {}".format(temp_dict))
         for line in hj.getStdout():  
             # if need_header:
             #     w.writerow(cols)
@@ -222,7 +222,7 @@ class HDFSSearchCommand(GeneratingCommand):
                   body_io.write(csv_escape(p))     
 
             body_io.write('"\n')
-            #logger.error("[---] Splunk Debug - Results size: {}\n Length of Results: {}, Printing the temp dictionaries: {}".format(sys.getsizeof(results), len(results), temp_dict))
+            logger.error("[---] Splunk Debug - Results size: {}\n Length of Results: {}, Printing the temp dictionaries: {}".format(sys.getsizeof(results), len(results), temp_dict))
             results.append(temp_dict)
             temp_dict = {'source':escaped_path, 'host':escaped_host} 
             result_count += 1
@@ -380,7 +380,7 @@ class HDFSSearchCommand(GeneratingCommand):
                 # for event in results:
                 #     logger.error("[---] Splunk Debug is printing the dictionaries: {}".format(event))
                 temp_res[unquote(p, unescape=True)].append(results)
-            except Exception, e:
+            except Exception as e:
                  if self.raiseAll:
                     raise
                  msg = toUserFriendlyErrMsg(e)
@@ -391,14 +391,14 @@ class HDFSSearchCommand(GeneratingCommand):
     def _main_impl(self):
         fields = ('delim', 'fields')
         if len(self.keywords) == 0:
-	       raise HcException(HCERR0505)
+            raise HcException(HCERR0505)
 
         d = self.keywords.pop(0)
         if not d in self.directives:
-	       raise HcException(HCERR0506, {'directive':d, 'accepted_values':','.join(self.directives.keys())}) 
+            raise HcException(HCERR0506, {'directive':d, 'accepted_values':','.join(self.directives.keys())}) 
         
         if len(self.keywords) == 0:
-	       raise HcException(HCERR0501, {'argument':'uri'})
+            raise HcException(HCERR0501, {'argument':'uri'})
         for k in self.keywords:
             logger.error("Splunk Debug Printing keywords: {}".format(k))
             if k.startswith(fields):
@@ -526,7 +526,7 @@ if __name__ == "__main__":
 #    #TODO: improve error messaging, here - right now the messages just go to search.log 
 #    try:
 #         hdfs.main()
-#    except Exception, e:
+#    except Exception as e:
 #          logger.exception('Failed to run hdfs command')
 #          import traceback
 #          stack =  traceback.format_exc()
@@ -545,7 +545,7 @@ if __name__ == "__main__":
 #         try:
 #             if hdfs.info != None:
 #                hdfs.streamResults('') # just write out the info
-#         except Exception, e:
+#         except Exception as e:
 #             logger.exception("Failed to update search result info")
 #    sys.exit(rv)
 

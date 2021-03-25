@@ -77,7 +77,7 @@ class DelegatingRestHandler(admin.MConfigHandler):
     def simpleRequest(self, uri, method='GET', postargs=None, raiseAllErrors=True):
         try:
             response, content = rest.simpleRequest(uri, self.getSessionKey(), method=method, postargs=postargs, raiseAllErrors=raiseAllErrors)
-        except Exception, e:
+        except Exception as e:
             raise HcException(HCERR2006, {'uri':uri, 'status':'', 'reason':str(e), 'response':''})    
     
         if response.status not in [200, 201] and raiseAllErrors:

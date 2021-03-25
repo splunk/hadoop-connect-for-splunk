@@ -1,3 +1,5 @@
+import sys,os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 from hdfs_base import HDFSAppObjModel
 from splunk.models.field import Field, BoolField, IntField
 

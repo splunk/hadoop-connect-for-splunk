@@ -120,7 +120,7 @@ class SplunkResultHandler(BaseSplunkResultHandler):
         sj = None
         try:
             sj = splunk.search.getJob(self.parent_sid, sessionKey=self.sessionKey)
-        except Exception, e:
+        except Exception as e:
             logger.exception('Failed to get search job '+self.parent_sid)
             self.raiseException(HCERR1002, {'sid':self.parent_sid, 'error':str(e)})
 
@@ -366,7 +366,7 @@ class SplunkResultHandler(BaseSplunkResultHandler):
         self.rollFilesByMtime(0)
     
     def closeAllFiles(self):
-        for n,f in self.open_files.iteritems():
+        for n,f in self.open_files.items():
            f.close()
 
     def getToFlushFiles(self):
@@ -423,7 +423,7 @@ class SplunkResultHandler(BaseSplunkResultHandler):
             for path in candidates.iterkeys():
                 filesizes[path] = os.path.getsize(path)
             flushSize = 0    
-            for path, size in sorted(filesizes.iteritems(), key=lambda (k,v): v, reverse=True):
+            for path, size in sorted(filesizes.items(), key=lambda (k,v): v, reverse=True):
                 flushSize += size
                 ptoflush[path] = candidates[path]
                 if flushSize >= minFlushSize:
@@ -435,7 +435,7 @@ class SplunkResultHandler(BaseSplunkResultHandler):
                 filesizes = {}
                 for path in candidates:
                     filesizes[path] = os.path.getsize(path)
-                for path, size in sorted(filesizes.iteritems(), key=lambda (k,v): v, reverse=True):
+                for path, size in sorted(filesizes.items(), key=lambda (k,v): v, reverse=True):
                     flushSize += size
                     local_path = self.rollFile(path)
                     ptoflush[local_path] = self.getHdfsPath(local_path)
@@ -454,7 +454,7 @@ class SplunkResultHandler(BaseSplunkResultHandler):
             return
         
         if len(toflush) >= minFiles:
-           for src,dst in toflush.iteritems():
+           for src,dst in toflush.items():
                if not os.path.exists(src): #SPL-57487 make sure the file exists before trying to move it
                    logger.warn("flushToHdfs asked to move non-existant file=%s" % src)
                    continue

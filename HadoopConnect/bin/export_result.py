@@ -89,7 +89,7 @@ class ExportResult(rest.BaseRestHandler):
             self.export()
         except ReportError:
             raise    
-        except Exception, e:
+        except Exception as e:
             logger.exception("Failed to export search result:")
             raise ReportError(400, "Failed to export search result, please make sure hadoop server is up")
         finally:

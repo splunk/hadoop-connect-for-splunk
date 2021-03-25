@@ -152,7 +152,7 @@ class HDFSExportHandler(DelegatingRestHandler):
             try:
                 myConf = getConf('export', sessionKey=self.getSessionKey(), namespace=self.appName, owner='nobody' )
                 myConf.beginBatch()
-                for k,v in self.callerArgs.data.iteritems():
+                for k,v in self.callerArgs.data.items():
                     if type(v) is list:
                         if len(v) == 0:
                             v = ''

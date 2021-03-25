@@ -223,7 +223,7 @@ class HcException(Exception):
         if len(options) > 0:
             try:
                 d = json.loads(message_format)
-                for k,v in options.iteritems():
+                for k,v in options.items():
                     d[k] = v
                 self.value = json.dumps(d)
             except:
@@ -256,25 +256,23 @@ if __name__ == '__main__':
     e = HcException(HCERR2002, {'entity_path':'', 'search':'', 'uri':uri, 'error':msg})
     
     # case 0: fill up a int value and get it back later
-    print 'case 0'
+    print ('case 0')
     d = json.loads(HCERR1505)
     d['peer_count'] = 5
     s = json.dumps(d)
     d = json.loads(s)
-    print 'peer_count: %d' % d['peer_count']
-    print 
+    print ('peer_count: %d' % d['peer_count'])
     
     # case 1, msg is a simple error message, manually construct a json error message, then convert to dict object, should pass test
-    print 'case 1'
+    print ('case 1')
     msg = "In handler \'savedsearch\': Unable to create a saved search with name \'ExportSearch:test-error-message\'. A saved search with that name already exists."
     json_str = HCERR1506 % ('test-error-message', msg)
-    print json_str
-    print json.loads(json_str)
-    print 
+    print (json_str)
+    print (json.loads(json_str))
     
     # case 2: msg is very complex: 
     # 1) manually build dict object 2) convert dict to json error message 3) convert json string back to dict. should pass test 
-    print 'case 2'
+    print ('case 2')
     msg = "[HTTP 409] [{'text': \"In handler 'savedsearch': Unable to create saved search with name 'ExportSearch: test-error-message'. A saved search with that name already exists.\", 'code': None, 'type': 'ERROR'}]"
     # 1) manually build dict object
     d = {}
@@ -284,15 +282,14 @@ if __name__ == '__main__':
     d['error'] = msg
     # 2) convert dict to json error message
     json_str = json.dumps(d)
-    print json_str
+    print (json_str)
     # 3) convert json string back to dict
     d = json.loads(json_str)
-    print d
-    print d['id']
-    print d['message']
-    print d['export']
-    print d['error']
-    print 
+    print (d)
+    print (d['id'])
+    print (d['message'])
+    print (d['export'])
+    print (d['error'])
     
     # case 3: msg is very complex, but HCERR1506 is a simple json string and is sure to be able to convert to dict. 
     # 1) convert HCERR1506 to dict
@@ -300,7 +297,7 @@ if __name__ == '__main__':
     # 3) convert dict to json error message
     # 4) convert json string back to dict
     # should pass test.
-    print 'case 3' 
+    print ('case 3') 
     # 1) convert HCERR1506 to dict
     d = json.loads(HCERR1506)
     # 2) fill up the blank (export and error in this case)
@@ -308,70 +305,65 @@ if __name__ == '__main__':
     d['error'] = msg
     # 3) convert dict to json error message
     json_str = json.dumps(d)
-    print json_str
+    print (json_str)
     # 4) convert json string back to dict
     d = json.loads(json_str)
-    print d
-    print d['id']
-    print d['message']
-    print d['export']
-    print d['error']
-    print 
+    print (d)
+    print (d['id'])
+    print (d['message'])
+    print (d['export'])
+    print (d['error'])
     
     # case 4: msg is very complex. 
     # 1) create HcExeption with msg 2) get error dict from the exception
     # should pass test
-    print 'case 4'
+    print ('case 4')
     # 1) create HcExeption with msg 
     e = HcException(HCERR1506, {'export':'test-error-message', 'error':msg})
     # 2) get error dict from the exception
     d = e.error
-    print d
-    print d['id']
-    print d['message']
-    print d['export']
-    print d['error']
-    print 
+    print (d)
+    print (d['id'])
+    print (d['message'])
+    print (d['export'])
+    print (d['error'])
     
     # case 5: msg is very complex. 
     # 1) create HcExeption with msg and more fields (foo) than it is needed 2) get error dict from the exception
     # should pass test
-    print 'case 5'
+    print ('case 5')
     # 1) create HcExeption with msg 
     e = HcException(HCERR1506, {'export':'test-error-message', 'error':msg, 'foo':'bar'})
     # 2) get error dict from the exception
     d = e.error
-    print d
-    print d['id']
-    print d['message']
-    print d['export']
-    print d['error']
-    print d['foo']
-    print 
-    
+    print (d)
+    print (d['id'])
+    print (d['message'])
+    print (d['export'])
+    print (d['error'])
+    print (d['foo'])
+
     # case 6: msg is very complex. 
     # 1) create HcExeption with msg and less fields (export) than it is needed 2) get error dict from the exception
     # should pass test
-    print 'case 6'
+    print ('case 6')
     # 1) create HcExeption with msg 
     e = HcException(HCERR1506, {'error':msg})
     # 2) get error dict from the exception
     d = e.error
-    print d
-    print d['id']
-    print d['message']
-    print d['export']
-    print d['error']
-    print 
+    print (d)
+    print (d['id'])
+    print (d['message'])
+    print (d['export'])
+    print (d['error'])
     
     # case 7: msg is very complex
     # 1) manually construct a json error string
     # 2 ) convert it to dict object
     # should fail test
-    print 'case 7' 
+    print ('case 7') 
     # 1) manually construct a json error string
     json_str = HCERR1506 % ('test-error-message', msg)
-    print json_str
+    print (json_str)
     # 2 ) convert it to dict object
-    print json.loads(json_str)
-    
+    print (json.loads(json_str))

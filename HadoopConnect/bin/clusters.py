@@ -80,7 +80,7 @@ class Cluster:
         try:
             process = self.openProcess(args, env)
             output = process.communicate()
-        except Exception, e:
+        except Exception as e:
             logger.exception('Failed to run process')
             raise HcException(HCERR0013, {'error':str(e)})
         if process.returncode != 0:
@@ -97,7 +97,7 @@ class Cluster:
             if not os.path.isdir(dir):
                 os.makedirs(dir)
             self.saveXml()
-        except Exception, e:
+        except Exception as e:
             logger.exception('Failed to create cluster xml configurations')
             raise HcException(HCERR1518, {'name':self.name, 'error':str(e)})    
         
@@ -107,7 +107,7 @@ class Cluster:
             if os.path.isdir(dir):
                 import shutil
                 shutil.rmtree(dir)
-        except Exception, e:
+        except Exception as e:
             raise HcException(HCERR1516, {'name':self.name, 'error':str(e)})
         
     def getClusterDir(self):

@@ -95,4 +95,3 @@ class Krb5Principal:
           except Exception as e:
               raise HcException(HCERR0011, {'cmd':'kinit', 'options':','.join(kinit_args), 'error':str(e)})
     
-

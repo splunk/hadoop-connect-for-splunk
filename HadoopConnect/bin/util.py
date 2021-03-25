@@ -1,4 +1,5 @@
-import time,sys,urlparse,csv
+import time,sys,csv
+from urllib.parse import urlparse
 from errors import *
 import inspect
 
@@ -125,7 +126,7 @@ def getDispatchDir(sid, sharedStorage=None):
     return dispatch_dir
         
 def getBaseURI(uri):
-    p = urlparse.urlparse(uri)
+    p = urlparse(uri)
     if p.scheme == '' or p.scheme == None or not (uri.startswith('file://') or uri.startswith('hdfs://')):
         raise HcException(HCERR0502, {'name':'uri', 'value':uri, 'error':'accepted schemes: file://, hdfs://'})
     if p.scheme == 'file':
@@ -241,8 +242,8 @@ class SearchResultsInfo:
         self.path = path
         with open(path, 'r') as f:
             r = csv.reader(f)
-            self.header = r.next()
-            self.info = dict(zip(self.header, r.next()))
+            self.header = next(r)
+            self.info = dict(zip(self.header, next(r)))
 
             # parse _countMap
             if "_countMap" in self.info:
@@ -254,9 +255,9 @@ class SearchResultsInfo:
 
             try:
                 while True:
-                    msg = dict(zip(self.header, r.next()))
-                    self.messages.append(msg);
-            except StopIteration, sp:
+                    msg = dict(zip(self.header, next(r)))
+                    self.messages.append(msg)
+            except StopIteration as sp:
                 pass       
 
     def updateMetric(self, metric, spent_ms, inv=1):
@@ -274,7 +275,7 @@ class SearchResultsInfo:
     def serializeTo(self, out):
         if self.countMap != None:
            p = []
-           for k,v in self.countMap.iteritems():
+           for k,v in self.countMap.items():
                p.append(str(k))
                p.append(str(v))
            self.info["_countMap"] = ';'.join(p) + ';'
@@ -391,7 +392,7 @@ class SplunkResultStreamer:
           parts = line.strip().split(':', 1)
           if len(parts) != 2:
              continue
-          parts[1] = urlparse.unquote(parts[1])
+          parts[1] = unquote(parts[1])
           self.settings[parts[0]] = parts[1]   
           
    def run(self):
@@ -408,7 +409,7 @@ class SplunkResultStreamer:
        
        try:
           #2. csv: read header
-          self.header = cr.next()
+          self.header = next(cr)
           out_header = self.handler.handleHeader(self.header)
           if out_header != None:
               self.dout.write('\n')  # end output header section
@@ -420,7 +421,7 @@ class SplunkResultStreamer:
               if out_row != None and out_header != None:
                   writeToCSV(cw, out_row)
               self.total_events += 1    
-       except StopIteration, sp:
+       except StopIteration as sp:
           pass
        finally:       
           #4. get any rows withheld by the handle until it sees finish

@@ -139,7 +139,7 @@ class DumpResultStreamer(SplunkResultStreamer):
             #3. csv: read input results
             for row in cr:
                 self.handler.handleResult(row)
-        except StopIteration, sp:
+        except StopIteration as sp:
             pass
         finally:       
             #4. get any rows withheld by the handle until it sees finish

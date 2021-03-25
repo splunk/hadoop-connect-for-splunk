@@ -1,4 +1,6 @@
-import sys, time, os, re, urlparse, md5, csv, gzip
+import sys, time, os, re, csv, gzip
+import hashlib
+from urllib.parse import urlparse, unquote
 import xml.dom.minidom, xml.sax.saxutils
 import logging
 import tarfile, gzip
@@ -44,12 +46,12 @@ SCHEME = """<scheme>
 
 # prints XML error data to be consumed by Splunk and exits
 def print_error_and_exit(s):
-    print "<error><message>%s</message></error>" % xml.sax.saxutils.escape(s)
+    print ("<error><message>%s</message></error>" % xml.sax.saxutils.escape(s))
     sys.exit(2)
 
 def validate_conf(config, key):
     if key not in config:
-        raise Exception, "Invalid configuration received from Splunk: key '%s' is missing." % key
+        raise Exception ("Invalid configuration received from Splunk: key '%s' is missing." % key)
 
 def get_child_node_data(config, parent_node, key_name):
     nodes = parent_node.getElementsByTagName(key_name)
@@ -93,14 +95,14 @@ def get_config():
         get_child_node_data(config, root, "session_key")
 
         if not config:
-            raise Exception, "Invalid configuration received from Splunk."
+            raise Exception ("Invalid configuration received from Splunk.")
 
         # just some validation: make sure these keys are present (required)
         validate_conf(config, "name")
         validate_conf(config, "checkpoint_dir")
         validate_conf(config, "session_key")
-    except Exception, e:
-        raise Exception, "Error getting Splunk configuration via STDIN: %s" % str(e)
+    except Exception as e:
+        raise Exception ("Error getting Splunk configuration via STDIN: %s" % str(e))
 
     return config
 
@@ -137,7 +139,7 @@ def get_encoded_csv_file_path(checkpoint_dir, conf_stanza):
     name = name[:30]
 
     # MD5 the URL
-    m = md5.new()
+    m = hashlib.md5()
     m.update(conf_stanza)
     name += "_" + m.hexdigest() + ".csv.gz"
 
@@ -186,13 +188,13 @@ class Checkpointer:
         f = None
         try:
             f = gzip.open(tmp_file, "wb")
-        except Exception, e:
+        except Exception as e:
             logging.error("Unable to open file='%s' for writing: %s" % \
                 self.chkpnt_file_name, str(e))
 
         writer = csv.writer(f)
 
-        for key, item in self.chkpnt_dict.iteritems():
+        for key, item in self.chkpnt_dict.items():
             writer.writerow([key, str(item.total_bytes), str(item.completed)])
 
         f.close()
@@ -239,7 +241,7 @@ class Checkpointer:
         f = None
         try:
             f = gzip.open(self.chkpnt_file_name, mode)
-        except Exception, e:
+        except Exception as e:
             logging.error("Error opening '%s': %s" % (self.chkpnt_file_name, str(e)))
             return None
         return f
@@ -260,7 +262,7 @@ def should_process(config, file_uri):
 
 # extract the host:port part only from the HDFS URI
 def get_hdfs_host_port(uri):
-    return urlparse.urlparse(uri).netloc
+    return urlparse(uri).netloc
 
 # makes sure that the regexes compile correctly; if not, they are removed
 # from the config object
@@ -453,7 +455,7 @@ def get_data_translator(url, fileobj):
         return FileObjTranslator(url, fileobj)
 
 def do_scheme():
-    print SCHEME
+    print (SCHEME)
 
 def get_validation_data():
     val_data = {}
@@ -563,11 +565,11 @@ def validate_arguments():
         hj = HadoopEnvManager.getCliJob(hdfs_uri)
         if not hj.exists(hdfs_uri):
             print_error_and_exit("The resource cannot be found.")
-    except Exception, e:
+    except Exception as e:
         print_error_and_exit("Unable to validate resource: %s" % str(e))
 
 def usage():
-    print "usage: %s [--scheme|--validate-arguments]"
+    print ("usage: %s [--scheme|--validate-arguments]")
     sys.exit(2)
 
 def test_Checkpointer_verify_item(i, is_compl, total_bytes):
@@ -583,7 +585,7 @@ def test_Checkpointer_verify(stanza, item, is_compl, total_bytes):
     i = chk.load_item(item)
     try:
         test_Checkpointer_verify_item(i, is_compl, total_bytes)
-    except AssertionError, e:
+    except AssertionError as e:
         logging.error(test_Checkpointer_generate_string("ASSERT FAIL:", stanza, \
             item, i.is_completed(), is_compl, i.get_total_bytes(), total_bytes))
         raise

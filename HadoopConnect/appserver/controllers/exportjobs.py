@@ -137,8 +137,8 @@ class HDFSExportController(controllers.BaseController):
 
             if len(update_props):
                 exportJob.update(update_props)
-		if exportJob.entity and exportJob.entity.owner:
-		    exportJob.entity.owner='nobody'
+            if exportJob.entity and exportJob.entity.owner:
+                exportJob.entity.owner='nobody'
                 if not exportJob.passive_save():
                     cherrypy.response.status = 500
                     return self.render_json(dict(success = False, errors = [ str(e) for e in exportJob.errors ]))
@@ -179,7 +179,7 @@ class HDFSExportController(controllers.BaseController):
             exportJob = HDFSExport.get(id)
             done = getattr(exportJob, action)()
         #do we need generic exception here?
-        except Exception, e:
+        except Exception as e:
             logger.warn('Could not %s export job: %s, %s' % (action, id, str(e)))
         if done:
             return self.render_json(dict(success = True))

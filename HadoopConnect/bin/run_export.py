@@ -144,7 +144,7 @@ def getDestination(uri, basepath):
 def getRelevantMessages(searchJob):
     result = []
     sid = searchJob.id
-    for level,msgs in searchJob.messages.iteritems():
+    for level,msgs in searchJob.messages.items():
         if level.lower() == 'error': 
             result.extend(msgs)
             continue
@@ -525,7 +525,7 @@ class RunExport(object):
                         canceled = True
                      else:
                         done = False
-              except Exception, e:
+              except Exception as e:
                   # handle external search canceling, or some other errors
                   m = 'Failed to cancel a unsuccessful search job, sid=%s: %s' % (sj.id, str(e)) 
                   logger.exception(m)
@@ -843,7 +843,7 @@ class RunExport(object):
         peersDown = []
         peersAll  = ['local']    
     
-        for pn, po in peers.iteritems():
+        for pn, po in peers.items():
             if po.get('status', '').lower() != 'up':
                peersDown.append(po.get('peerName', ''))
             peersAll.append(po.get('peerName', ''))        
@@ -1011,7 +1011,7 @@ if __name__ == '__main__':
     finally:
         try:
             info.writeOut()
-        except Exception, e:
+        except Exception as e:
             logger.exception("Failed to update search result info")    
     
             
