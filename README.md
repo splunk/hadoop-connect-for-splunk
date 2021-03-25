@@ -3,7 +3,7 @@
 [![License Badge](https://img.shields.io/badge/License-Apache--2.0-informational)](https://www.apache.org/licenses/LICENSE-2.0)\
 The repo structure is as follows:
 - **[HadoopConnect](https://github.com/splunk/hadoop-connect-for-splunk/tree/main/HadoopConnect)**: This is the folder with the source code.
-- Please find the latest application under releases over [here](https://github.com/splunk/hadoop-connect-for-splunk/releases).
+- Please find the latest application under releases over [here](https://github.com/splunk/hadoop-connect-for-splunk/releases/download/1.2.7/HadoopConnect_1.2.7.tar.gz).
 
 # Steps to Run Hadoop Connect on Splunk 8
 **Note: In Splunk 8 Advanced XML stopped working. In addition, Python version 3 is the
