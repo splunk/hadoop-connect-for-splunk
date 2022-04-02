@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en" dir="ltr" class="client-nojs"><!--<![endif]-->
+<head><script src="analytics.js?v=cf34f82" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app213.us...';v.server_ms=494;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="bundle-playback.js%3Fv=poeZ53Bz" charset="utf-8"></script>
+<script type="text/javascript" src="wombat.js%3Fv=UHAOicsW" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.../web");
+  __wm.wombat("http://docs...:80/Documentation/HadoopConnect/1.2.5/DeployHadoopConnect/ExploreHDFS","20181024014701","https://web.../","web","/_static/",
+	      "1540345621");
+</script>
+<link rel="stylesheet" type="text/css" href="banner-styles.css%3Fv=fantwOh2.css" />
+<link rel="stylesheet" type="text/css" href="iconochive.css%3Fv=qtvMKcIJ.css" />
+<!-- End Wayback Rewrite JS Include -->
+
+<meta charset="UTF-8"/>
+<title>Explore HDFS or a mounted file system - Splunk Documentation</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"Documentation","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":100,"wgPageName":"Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2","wgTitle":"HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2","wgCurRevisionId":658438,"wgRevisionId":658438,"wgArticleId":119096,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Explore","HDFS data","On-demand search","Visualization","V:HadoopConnect:1.2","V:HadoopConnect:1.2.1","V:HadoopConnect:1.2.2","V:HadoopConnect:1.2.3","V:HadoopConnect:1.2.4","V:HadoopConnect:1.2.5"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2","wgRelevantArticleId":119096,"wgRequestId":"0584a408652fbea81803beaf","wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[]});mw.loader.implement("user.options",function($,jQuery,require,module){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens",function ( $, jQuery, require, module ) {
+mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});/*@nomin*/;
+
+});mw.loader.load(["mediawiki.page.startup","ext.PonyDocs","skins.oxfordcomma.top.js"]);});</script>
+<link rel="stylesheet" href="load.php%3Fdebug=false&amp;lang=en&amp;modules=mediawiki.legacy.commonPrint,shared|mediawiki.sectionAnchor|mediawiki.skinning.interface|skins.oxfordcomma.css|skins.oxfordcomma.more.css&amp;only=styles&amp;skin=oxfordcomma.css"/>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<script async="" src="load.php%3Fdebug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=oxfordcomma"></script>
+<meta name="generator" content="MediaWiki 1.27.4"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="opensearch_desc.php" title="Splunk Documentation (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="api.php?action=rsd"/>
+<link rel="alternate" type="application/rss+xml" title="Splunk Documentation RSS feed" href="index.php?title=Special:RecentChanges&amp;feed=rss"/>
+<link rel="alternate" type="application/atom+xml" title="Splunk Documentation Atom feed" href="index.php?title=Special:RecentChanges&amp;feed=atom"/>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="html5shiv.min.js"></script>
+    <script src="respond.min.js"></script>
+<![endif]-->
+
+<link rel="canonical" href="ExploreHDFS.html"/>
+</head>
+<body class="mediawiki ltr sitedir-ltr ns-100 ns-subject page-Documentation_HadoopConnect_DeployHadoopConnect_ExploreHDFS_1_2 rootpage-Documentation_HadoopConnect_DeployHadoopConnect_ExploreHDFS_1_2 skin-oxfordcomma action-view">
+<!--googleoff: index--><!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<header>
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="navbar-splunk">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="Documentation">
+					<img src="top-nav-logo.png"/>
+				</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="main-menu">
+				<ul class="nav navbar-nav">
+					<li class="hidden-md hidden-lg search-mobile">
+						<form class="navbar-form" role="search" action="https://web.../web/20181024014701/http://docs.../Special:SplunkSearch/docs">
+							<input type="text" class="form-control" placeholder="Search Docs" name="q" id="search-input">
+							<i class="glyphicon glyphicon-search" style=""></i>
+						</form>
+					</li>
+
+					<li class="dropdown dropdown-column normal-width">
+						<a href="products.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Products <span class="caret"></span></a>
+					<div class="dropdown-menu" role="menu">
+						<div class="dropdown-block">					
+							<ul>
+								<li>
+								<a href="products.html" target="">Overview</a>
+								</li>
+							</ul>
+							<h3>Core Products</h3>
+							<ul>
+								<li>
+								<a href="splunk-enterprise.html" target="">Splunk Enterprise</a>
+								</li>
+								<li>
+								<a href="splunk-cloud.html" target="">Splunk Cloud</a>
+							</li>
+							<li>
+								<a href="splunk-light.html" target="_parent">Splunk Light</a>
+							</li>
+							</ul>
+							<h3>Premium Solutions</h3>
+							<ul>
+							<li>
+								<a href="splunk-enterprise-security.html" target="">Splunk Enterprise Security</a>
+							</li>
+							<li>
+								<a href="it-service-intelligence.html" target="_parent">Splunk IT Service Intelligence</a>
+							</li>
+							<li>
+								<a href="user-behavior-analytics.html" target="_parent">Splunk User Behavior Analytics</a>
+							</li>
+							</ul>
+							<ul>
+								<li role="separator" class="divider"></li>
+								<li>
+								<a href="apps-and-add-ons.html" target="_parent">Apps &amp; Add-Ons</a>
+								</li>
+								<li>
+								<a href="pricing.html" target="_parent">Pricing</a>
+								</li>
+								<li>
+								<a href="splunk" target="_blank">T-Shirts</a>
+								</li>
+						</ul>
+						</div>
+					</div>
+					</li>
+
+					<li class="dropdown dropdown-column">
+						<a href="solutions" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Solutions <span class="caret"></span></a>
+						<div class="dropdown-menu" role="menu">
+			                <div class="dropdown-block">
+								<h3>Solution Areas</h3>
+								<ul>
+									<li>
+										<a href="solution-areas.html" target="">Overview</a>
+									</li>
+									<li>
+										<a href="application-delivery.html" target="">Application Delivery</a>
+									</li>
+									<li>
+										<a href="big-data.html" target="">Big Data</a>
+									</li>
+									<li>
+										<a href="business-analytics.html" target="">Business Analytics</a>
+									</li>
+									<li>
+										<a href="cloud.html" target="">Cloud Solutions</a>
+									</li>
+									<li>
+										<a href="internet-of-things.html" target="">IoT &amp; Industrial Data</a>
+									</li>
+									<li>
+										<a href="it-operations-management.html" target="">IT Operations</a>
+									</li>
+									<li>
+										<a href="log-management.html" target="">Log Management</a>
+									</li>
+									<li>
+										<a href="security-and-fraud.html" target="">Security &amp; Fraud</a>
+									</li>
+								</ul>
+							</div>
+							<div class="dropdown-block">
+								<h3>Industries</h3>
+								<ul>
+									<li>
+										<a href="industries.html" target="">Overview</a>
+									</li>
+									<li>
+										<a href="communications.html" target="">Communications</a>
+									</li>
+									<li>
+										<a href="energy-and-utilities.html" target="">Energy &amp; Utilities</a>
+									</li>
+									<li>
+										<a href="financial-services.html" target="">Financial Services</a>
+									</li>
+									<li>
+										<a href="healthcare.html" target="">Healthcare</a>
+									</li>
+									<li>
+										<a href="higher-education.html" target="">Higher Education</a>
+									</li>
+									<li>
+										<a href="manufacturing.html" target="">Manufacturing</a>
+									</li>
+									<li>
+										<a href="nonprofit.html" target="">Nonprofit</a>
+									</li>
+									<li>
+										<a href="online-services.html" target="">Online Services</a>
+									</li>
+									<li>
+										<a href="public-sector.html" target="">Public Sector</a>
+									</li>
+									<li>
+										<a href="retail.html" target="">Retail</a>
+									</li>
+									<li>
+										<a href="more-industries.html" target="">More Industries</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+
+					<li class="dropdown">
+						<a href="customers.html" target="" class="dropdown-toggle" data-toggle="dropdown">Customers<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="customers.html" target="">Overview</a>
+							</li>
+							<li>
+								<a href="customers.html?CustomerSuccessStories" target="">Success Stories</a>
+							</li>
+							<li>
+								<a href="customers.html?RoiStories" target="">ROI Stories</a>
+							</li>
+							<li>
+								<a href="customers.html?CustomerVideos" target="">Videos</a>
+							</li>
+							<li>
+								<a href="customers.html?CustomerWebinars" target="">Webinars</a>
+							</li>
+							<li>
+								<a href="customers.html?CustomerPressReleases" target="">Press Releases</a>
+							</li>
+                        </ul>
+  					</li>
+
+					<li class="dropdown">
+						<a href="https://web.../web/20181024014701/http://community.../" target="" class="dropdown-toggle" data-toggle="dropdown">Community<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="https://web.../web/20181024014701/http://community.../" target="_blank">Community Portal</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://blogs.../" target="_blank">Blogs</a>
+							</li>
+							<li>
+								<a href="Documentation" target="_blank">Documentation</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://answers.../" target="_blank">Splunk Answers</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://dev.../" target="_blank">Splunk App Developers</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://splunkbase.../" target="_blank">Apps &amp; Add-Ons</a>
+							</li>
+							<li>
+								<a href="experts.html" target="">Ask an Expert</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://conf.../" target="_blank">.conf</a>
+							</li>
+                        </ul>
+  					</li>
+
+					<li><a href="Splexicon">SPLEXICON <span class="sr-only">(current)</span></a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right logged visible-mobile">
+					<li class="dropdown">
+						<a href="support-and-services.html" target="" class="dropdown-toggle" data-toggle="dropdown">Support &amp; Services<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="support-and-services.html" target="">Overview</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://answers.../" target="_blank">Splunk Answers</a>
+							</li>
+							<li>
+								<a href="Documentation" target="_blank">Documentation</a>
+							</li>
+							<li>
+								<a href="SP-CAAAAH9" target="">Education &amp; Training</a>
+							</li>
+							<li>
+								<a href="https://web.../web/20181024014701/http://community.../" target="_blank">Community Support</a>
+							</li>
+							<li>
+								<a href="securityportal" target="">Product Security Updates</a>
+							</li>
+							<li>
+								<a href="professional-services.html" target="">Professional Services</a>
+							</li>
+							<li>
+								<a href="sso_redirect?type=portal" target="">Support Portal</a>
+							</li>
+							<li>
+								<a href="SP-CAAAG2R" target="">Using Splunk Software</a>
+							</li>
+							<li>
+								<a href="contact.html#customer-support" target="_parent">Contact Customer Support</a>
+							</li>
+						</ul>
+					</li>
+
+					<li class="dropdown">
+						<a href="ExploreHDFS.html#" class="dropdown-toggle" data-toggle="dropdown">My Account<span class="caret"></span></a>
+						<ul class="dropdown-menu account" role="menu">
+															<li id="loginId"><a href="ExploreHDFS">Login</a></li>
+								<li id="signId"><a href="ExploreHDFS">Sign Up</a></li>
+														</ul>
+					</li>
+
+					<li class="hidden-sm hidden-xs search-desktop">
+						<form class="navbar-form" role="search" action="https://web.../web/20181024014701/http://docs.../Special:SplunkSearch/docs">
+							<input type="text" class="form-control" placeholder="Search Docs" name="q" id="search-input">
+							<i class="glyphicon glyphicon-search"></i>
+						</form>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+</header>
+<section id="hero">
+    <div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-9 col-md-8">
+				<div class="super-title">
+					Splunk<sup>&reg;</sup> Hadoop Connect				</div>
+				<h1>Deploy and Use Splunk Hadoop Connect</h1>
+				<a class="download" href="index.php?title=Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2&amp;action=pdfbook&amp;version=1.2.5&amp;product=HadoopConnect">
+					<img src="acrobat-logo.png"/>
+					Download manual as PDF
+				</a>
+			</div>
+			<div class="col-sm-12 col-lg-3 col-md-4">
+				<div class="version-select-container">
+
+			<input type="hidden" id="product-select" name="selectedProduct" value="HadoopConnect"/>
+			<div class="">
+		<label for="version-select">Version</label> <br/>
+		<select id="version-select" class="">
+			<option value="1.0">1.0</option><option value="1.1">1.1</option><option value="1.2">1.2</option><option value="1.2.1">1.2.1</option><option value="1.2.2">1.2.2</option><option value="1.2.3">1.2.3</option><option value="1.2.4">1.2.4</option><option value="1.2.5" selected>1.2.5 (latest release)</option>		</select>
+	</div>
+</div>
+			</div>
+		</div>
+    </div>
+</section>
+
+<section id="detail-page">
+    <!------------------------------>
+    <!-- ONLY MOBILE menu details -->
+    <!------------------------------>
+    <nav class="navbar navbar-default hidden-md hidden-lg" id="mobile-menu">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" aria-expanded="false" data-toggle="collapse" data-target="#menu-details">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<label class="navbar-brand" href="#">Deploy and Use Splunk Hadoop Connect</label>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- The menu details collapsing element -->
+        <div class="collapse" id="menu-details">
+
+			<!-- start of collapsible panels for mobile -->
+							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+													<div class="panel panel-default">
+								
+							<div class="panel-heading" role="tab" id="heading1">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="ExploreHDFS.html#collapse1" aria-expanded="false" aria-controls="collapse1">
+										<span class="caret"></span>
+										<span class="caret-right"></span>Introduction									</a>
+								</h4>
+							</div>
+															
+									<div class="panel-body">
+										<ul class="list-unstyled">
+																<li>
+								<a href="AboutSplunkHadoopConnect">
+									About Splunk Hadoop Connect								</a>
+							</li>
+														<li>
+								<a href="Howtogethelp">
+									How to get help								</a>
+							</li>
+																		</ul>
+										
+									</div>
+								</div>
+								<div class="panel panel-default">
+								
+							<div class="panel-heading" role="tab" id="heading2">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="ExploreHDFS.html#collapse2" aria-expanded="false" aria-controls="collapse2">
+										<span class="caret"></span>
+										<span class="caret-right"></span>Before you deploy Splunk Hadoop Connect									</a>
+								</h4>
+							</div>
+															
+									<div class="panel-body">
+										<ul class="list-unstyled">
+																<li>
+								<a href="UnderstandhowthisappfitsintoyourSplunkdeployment">
+									How Splunk Hadoop Connect fits into your Splunk deployment								</a>
+							</li>
+														<li>
+								<a href="Systemrequirements">
+									System requirements								</a>
+							</li>
+																		</ul>
+										
+									</div>
+								</div>
+								<div class="panel panel-default">
+								
+							<div class="panel-heading" role="tab" id="heading3">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="ExploreHDFS.html#collapse3" aria-expanded="false" aria-controls="collapse3">
+										<span class="caret"></span>
+										<span class="caret-right"></span>Deploy and configure Splunk Hadoop Connect									</a>
+								</h4>
+							</div>
+															
+									<div class="panel-body">
+										<ul class="list-unstyled">
+																<li>
+								<a href="Downloadandinstalltheapp">
+									Download and install Splunk Hadoop Connect								</a>
+							</li>
+														<li>
+								<a href="HadoopCLI">
+									Install Hadoop CLI								</a>
+							</li>
+														<li>
+								<a href="Kerberosclientutilities">
+									Install Kerberos client utilities								</a>
+							</li>
+														<li>
+								<a href="Configuretheapp">
+									Configure Splunk Hadoop Connect								</a>
+							</li>
+														<li>
+								<a href="Setupcompressedfiletypes">
+									About supported file types								</a>
+							</li>
+																		</ul>
+										
+									</div>
+								</div>
+								<div class="panel panel-default">
+								
+							<div class="panel-heading" role="tab" id="heading4">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="ExploreHDFS.html#collapse4" aria-expanded="false" aria-controls="collapse4">
+										<span class="caret"></span>
+										<span class="caret-right"></span>Use Splunk Hadoop Connect									</a>
+								</h4>
+							</div>
+															
+									<div class="panel-body">
+										<ul class="list-unstyled">
+																<li>
+								<a href="Appdashboard">
+									App dashboard								</a>
+							</li>
+														<li>
+								<a href="ExporttoHDFS">
+									Export to HDFS or a mounted file system								</a>
+							</li>
+														<li class="selected">
+								<a href="ExploreHDFS.html">
+									Explore HDFS or a mounted file system								</a>
+							</li>
+														<li>
+								<a href="ImportfromHDFS">
+									Import from HDFS								</a>
+							</li>
+														<li>
+								<a href="UsesearchcommandsinHadoopConnect">
+									Use search commands in Hadoop Connect								</a>
+							</li>
+														<li>
+								<a href="Usethetroubleshootingmenu">
+									Use the Troubleshoot menu								</a>
+							</li>
+																		</ul>
+										
+									</div>
+								</div>
+								<div class="panel panel-default">
+								
+							<div class="panel-heading" role="tab" id="heading5">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="ExploreHDFS.html#collapse5" aria-expanded="false" aria-controls="collapse5">
+										<span class="caret"></span>
+										<span class="caret-right"></span>Reference									</a>
+								</h4>
+							</div>
+															
+									<div class="panel-body">
+										<ul class="list-unstyled">
+																<li>
+								<a href="Searchcommandreference">
+									Search command reference								</a>
+							</li>
+														<li>
+								<a href="Logfilereference">
+									Log file reference								</a>
+							</li>
+														<li>
+								<a href="Configurationfilereference">
+									Configuration file reference								</a>
+							</li>
+														<li>
+								<a href="Troubleshooting">
+									Troubleshoot Splunk Hadoop Connect								</a>
+							</li>
+																		</ul>
+										
+									</div>
+								</div>
+								<div class="panel panel-default">
+								
+							<div class="panel-heading" role="tab" id="heading6">
+								<h4 class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="ExploreHDFS.html#collapse6" aria-expanded="false" aria-controls="collapse6">
+										<span class="caret"></span>
+										<span class="caret-right"></span>Release notes									</a>
+								</h4>
+							</div>
+															
+									<div class="panel-body">
+										<ul class="list-unstyled">
+																<li>
+								<a href="Knownissues">
+									Release notes								</a>
+							</li>
+															</ul>
+							
+						</div>
+											</div> <!-- final panel-default -->
+				</div> <!-- panel-group -->
+				        </div><!-- /.navbar-collapse -->
+    </nav>
+    <!-- ///---------------------------- -->
+    <!-- ///ONLY MOBILE menu details END -->
+    <!-- ///---------------------------- -->
+
+    <!-- sticky Subnav: desktop menu header, breadcrumbs, previously viewed -->
+    <!-- this needs a double container so it stays in the same position when it is FIXED -->
+    <div class="container-fluid" id="subnav">
+  		<div class="row">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+          <div id="desktop-menu-header">
+            <!-- mobile menu details -->
+            <nav class="navbar navbar-default">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" aria-expanded="true" data-toggle="collapse" data-target="#menu-details-desktop">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <label class="navbar-brand" href="#">
+                  <a href="ExploreHDFS.html#" aria-expanded="true" data-toggle="collapse" data-target="#menu-details-desktop">Hide Contents <span class="table-of-contents-toggle-caret caret-top"></span></a>
+                </label>
+              </div>
+            </nav>
+          </div>
+        </div>
+
+        <div class="col-lg-7 col-md-7 col-xs-12 breadcrumb-container">
+          <div class="row">
+            <ol class="breadcrumb">
+			<li>
+			<a href="Documentation">
+				Documentation			</a>
+		</li>
+				<li>
+			<a href="HadoopConnect">
+				Splunk<sup>&reg;</sup> Hadoop Connect			</a>
+		</li>
+				<li>
+			<a href="DeployHadoopConnect">
+				Deploy and Use Splunk Hadoop Connect			</a>
+		</li>
+				<li>
+			<a href="ExploreHDFS" class="active">
+				Explore HDFS or a mounted file system			</a>
+		</li>
+		</ol>          </div>
+        </div>
+        		<div class="col-lg-2 col-md-2 previously-viewed">
+			<a id="previously-viewed-label" data-target="#" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+				<i class="glyphicon glyphicon-eye-open"></i> Previously Viewed <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="previously-viewed-label">			
+				<li><a href="Configurationfilereference">Configuration file reference</a></li><li><a href="Troubleshooting">Troubleshoot Splunk Hadoop Con...</a></li><li><a href="Howtogethelp">How to get help</a></li><li><a href="About">About the Splunk Add-on for Mi...</a></li>			</ul>
+		</div>
+	  		</div>
+    </div>
+    <!-- /end subnav  -->
+
+    <!-- body, divided in 3 columns, one for Dropdown Contents, one for body and one for Related items and right-nav -->
+    <div class="container" id="body-details-container">
+		<div class="row" id="body-details">
+			<div class="col-lg-3 col-md-3 hidden-sm hidden-xs" id="menu-details-container-desktop">
+				<!-- DESKTOP TABLE OF CONTENTS - The menu details collapsing element -->
+				<div class="collapse in" id="menu-details-desktop">
+					<h2>Deploy and Use Splunk Hadoop Connect<br/>
+						<div class="border-bottom-dotted"></div>
+					</h2>
+
+											<div class="panel-group" id="accordionDesktop" role="tablist" aria-multiselectable="true">
+																	<div class="panel panel-default">
+																			<div class="panel-heading" role="tab" id="heading1">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordionDesktop" href="ExploreHDFS.html#collapseDesktop1" aria-expanded="false" aria-controls="collapseDesktop1">
+												<span class="caret"></span>
+												<span class="caret-right"></span>Introduction											</a>
+										</h4>
+									</div>
+																			
+											<div class="panel-body">
+												<ul class="list-unstyled">
+																				<li>
+										<a href="AboutSplunkHadoopConnect">
+											About Splunk Hadoop Connect										</a>
+									</li>
+																		<li>
+										<a href="Howtogethelp">
+											How to get help										</a>
+									</li>
+																						</ul>
+												
+											</div>
+										</div>
+										<div class="panel panel-default">
+																			<div class="panel-heading" role="tab" id="heading2">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordionDesktop" href="ExploreHDFS.html#collapseDesktop2" aria-expanded="false" aria-controls="collapseDesktop2">
+												<span class="caret"></span>
+												<span class="caret-right"></span>Before you deploy Splunk Hadoop Connect											</a>
+										</h4>
+									</div>
+																			
+											<div class="panel-body">
+												<ul class="list-unstyled">
+																				<li>
+										<a href="UnderstandhowthisappfitsintoyourSplunkdeployment">
+											How Splunk Hadoop Connect fits into your Splunk deployment										</a>
+									</li>
+																		<li>
+										<a href="Systemrequirements">
+											System requirements										</a>
+									</li>
+																						</ul>
+												
+											</div>
+										</div>
+										<div class="panel panel-default">
+																			<div class="panel-heading" role="tab" id="heading3">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordionDesktop" href="ExploreHDFS.html#collapseDesktop3" aria-expanded="false" aria-controls="collapseDesktop3">
+												<span class="caret"></span>
+												<span class="caret-right"></span>Deploy and configure Splunk Hadoop Connect											</a>
+										</h4>
+									</div>
+																			
+											<div class="panel-body">
+												<ul class="list-unstyled">
+																				<li>
+										<a href="Downloadandinstalltheapp">
+											Download and install Splunk Hadoop Connect										</a>
+									</li>
+																		<li>
+										<a href="HadoopCLI">
+											Install Hadoop CLI										</a>
+									</li>
+																		<li>
+										<a href="Kerberosclientutilities">
+											Install Kerberos client utilities										</a>
+									</li>
+																		<li>
+										<a href="Configuretheapp">
+											Configure Splunk Hadoop Connect										</a>
+									</li>
+																		<li>
+										<a href="Setupcompressedfiletypes">
+											About supported file types										</a>
+									</li>
+																						</ul>
+												
+											</div>
+										</div>
+										<div class="panel panel-default">
+																			<div class="panel-heading selected" role="tab" id="heading4">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordionDesktop" href="ExploreHDFS.html#collapseDesktop4" aria-expanded="true" aria-controls="collapseDesktop4">
+												<span class="caret"></span>
+												<span class="caret-right"></span>Use Splunk Hadoop Connect											</a>
+										</h4>
+									</div>
+																			
+											<div class="panel-body">
+												<ul class="list-unstyled">
+																				<li>
+										<a href="Appdashboard">
+											App dashboard										</a>
+									</li>
+																		<li>
+										<a href="ExporttoHDFS">
+											Export to HDFS or a mounted file system										</a>
+									</li>
+																		<li class="selected">
+										<a href="ExploreHDFS.html">
+											Explore HDFS or a mounted file system										</a>
+									</li>
+																		<li>
+										<a href="ImportfromHDFS">
+											Import from HDFS										</a>
+									</li>
+																		<li>
+										<a href="UsesearchcommandsinHadoopConnect">
+											Use search commands in Hadoop Connect										</a>
+									</li>
+																		<li>
+										<a href="Usethetroubleshootingmenu">
+											Use the Troubleshoot menu										</a>
+									</li>
+																						</ul>
+												
+											</div>
+										</div>
+										<div class="panel panel-default">
+																			<div class="panel-heading" role="tab" id="heading5">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordionDesktop" href="ExploreHDFS.html#collapseDesktop5" aria-expanded="false" aria-controls="collapseDesktop5">
+												<span class="caret"></span>
+												<span class="caret-right"></span>Reference											</a>
+										</h4>
+									</div>
+																			
+											<div class="panel-body">
+												<ul class="list-unstyled">
+																				<li>
+										<a href="Searchcommandreference">
+											Search command reference										</a>
+									</li>
+																		<li>
+										<a href="Logfilereference">
+											Log file reference										</a>
+									</li>
+																		<li>
+										<a href="Configurationfilereference">
+											Configuration file reference										</a>
+									</li>
+																		<li>
+										<a href="Troubleshooting">
+											Troubleshoot Splunk Hadoop Connect										</a>
+									</li>
+																						</ul>
+												
+											</div>
+										</div>
+										<div class="panel panel-default">
+																			<div class="panel-heading" role="tab" id="heading6">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordionDesktop" href="ExploreHDFS.html#collapseDesktop6" aria-expanded="false" aria-controls="collapseDesktop6">
+												<span class="caret"></span>
+												<span class="caret-right"></span>Release notes											</a>
+										</h4>
+									</div>
+																			
+											<div class="panel-body">
+												<ul class="list-unstyled">
+																				<li>
+										<a href="Knownissues">
+											Release notes										</a>
+									</li>
+																			</ul>
+									
+								</div>
+															</div> <!-- final panel-default -->
+						</div> <!-- panel-group -->
+											<!-- END of collapsible panels -->
+									</div>
+				<!-- END OF DESKTOP Table of Contents -->
+			</div>
+			<!-- main body -->
+			<div class="col-lg-7 col-md-7 col-xs-12" id="main-body">
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<!--googleon: index-->							<a href="index.php?title=Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2&amp;action=pdfbook&amp;version=1.2.5&amp;topic=1&amp;product=HadoopConnect" class="download"><img src="acrobat-logo.png"> Download topic as PDF</a>
+							<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><h1><span class="mw-headline" id="Explore_HDFS_or_a_mounted_file_system">Explore HDFS or a mounted file system</span></h1>
+<p>For on-demand search and visualization of data in in your Hadoop directories, use the Explore page to explore the Hadoop clusters or mounted file systems you have mapped to the Splunk platform, and to view the details of export jobs. For information about mapping HDFS clusters or mounted file systems, see <a class="external text" href="Configuretheapp">"Configure Splunk Hadoop Connect"</a> in this manual.
+</p><p>The Explore functionality lets you dig into your HDFS directories and files in detail, all the way down to the file property level for a variety of file types. Use the information to preview and determine the files you want to index into Splunk Enterprise and read them at search time.
+</p><p>You can use the ability to read data at search time as a way to visualize the results of analytics that you generated in Hadoop. For example, you can read the results of a MapReduce job that ran in Hadoop and display them in a dashboard, maybe next to a few panels that are populated with searches. Data you explore and search from Hadoop in this manner is not indexed and index-time logic is not applied to this data.
+</p>
+<h2><span class="mw-headline" id="Use_HDFS_Explore">Use HDFS Explore</span></h2>
+<p><a href="File:HDFS_explore1.png" class="image"><img alt="HDFS explore1.png" src="670px-HDFS_explore1.png" width="670" height="259" srcset="1005px-HDFS_explore1.png 1.5x, HDFS_explore1.png 2x"/></a>
+</p><p>Select the location of the directories you want to explore. Use the drop-down menu to select from existing configured locations or type the location into the <b>Go To</b> field. 
+</p><p>When you provide a location, the directories residing at that location appear in the table. Click the directories that appear for each location to drill down through additional directory layers until you get to the file level.
+</p><p>When you drill down to the file level, the <b>Search</b> link appears. Click <b>Search</b> to explore the contents of that file. The contents of the file are read at search time, not indexed.
+</p><p>Click <b>Add as data input</b> for a file or directory to index the contents. 
+</p><p>See <a class="external text" href="ImportfromHDFS">"Import from HDFS"</a> for information about adding an input.
+</p><p><b>Note:</b> You can only add HDFS clusters to Hadoop Connect as input. Add your mounted file system to the Splunk platform as regular input. Clicking "Add as data input" for a local file system takes you to the Splunk input page.
+</p>
+<!-- 
+NewPP limit report
+Cached time: 20181024014701
+Cache expiry: 86400
+Dynamic content: false
+CPU time usage: 0.020 seconds
+Real time usage: 0.050 seconds
+Preprocessor visited node count: 6/1000000
+Preprocessor generated node count: 12/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+
+<!-- 
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 - -total
+-->
+</div><div class="printfooter">
+Retrieved from "<a dir="ltr" href="index.php?title=Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2&amp;oldid=658438">http://docs.../index.php?title=Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2&amp;oldid=658438</a>"</div>
+<!--googleoff: index-->						</div>
+					</div>
+				</div>
+
+									<table class="paging">
+						<tr>
+															<td class="arrow-previous">
+									<a href="ExporttoHDFS">
+										<i class="glyphicon glyphicon-chevron-left"></i>
+									</a>
+								</td>
+								<td class="previous">
+									<span>PREVIOUS</span><br/>
+									<a href="ExporttoHDFS">
+										Export to HDFS or a mounted file system									</a>
+								</td>
+															<td class="separator">&nbsp;</td>
+															<td class="next">
+									<span>NEXT</span><br/>
+									<a href="ImportfromHDFS">
+										Import from HDFS									</a>
+								</td>
+								<td class="arrow-next">
+									<a href="ImportfromHDFS">
+										<i class="glyphicon glyphicon-chevron-right"></i>
+									</a>
+								</td>
+														</tr>
+					</table>
+						<p class="disclaimer">
+		This documentation applies to the following versions of Splunk<sup>&reg;</sup> Hadoop Connect: 
+		1.2, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.2.5	</p>
+	
+<hr/>
+
+				<h2 id="topic-comment" style="display:none">Comments</h2>
+				<div id="commentListing">
+									</div>
+			</div>
+			<!-- /main body -->
+			<!-- fixed nav -->
+							<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 related-container">
+					<div id="sticky-back-to-top" class="hidden">
+					  <a href="ExploreHDFS.html#">Back To Top</a>
+					</div>
+					<div id="sticky-right-nav">
+						<div id="right-nav" class="hidden-xs hidden-sm">
+							<h2>Explore HDFS or a mounted file system</h2>
+							<ul class="list-unstyled">
+																			<li rel="#Use_HDFS_Explore" class="anchorlink">
+												<a href="ExploreHDFS.html#Use_HDFS_Explore">Use HDFS Explore</a>
+											</li>							</ul>
+						</div>
+					</div>
+				</div>
+							<!-- /fixed nav -->
+		</div>
+	</div>
+</section>
+
+<!-- Comments and Feedback -->
+<section id="detail-page-tabs" class="tabbing-options" role="tabpanel">
+    <div class="container-fluid">
+		<!-- TABS SEPARATED FROM TABS BODIES FOR BACKGROUND REASONS -->
+		<div class="row" id="docs-tabs">
+			<div class="col-lg-12">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-7 col-md-offset-3 col-xs-12 col-sm-12">
+							<ul class="tabs" role="tablist">
+								<li role="presentation" class="active">
+									<div class="tab-top-edge"></div>
+									<a href="ExploreHDFS.html#tab1" aria-controls="tab1" role="tab" data-toggle="tab">Was this topic useful?
+									</a>
+								</li>
+								<li role="presentation">
+									<div class="tab-top-edge"></div>
+									<a href="ExploreHDFS.html#tab2" aria-controls="tab2" role="tab" data-toggle="tab">
+										Post a Comment
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END OF TABS -->
+
+		<!-- START OF TABS BODIES -->
+		<div class="row docs-tabs-bodies" id="docs-tabs-bodies">
+			<div class="col-lg-12">
+				<div class="container no-padding">
+					<div class="col-lg-7 col-lg-offset-3">
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tab1">
+								<!-- FEEDBACK TAB -->
+								<div class="container-fluid no-padding">
+									<div class="row">
+										<div class="col-lg-12 comment-container">
+											<form id="feedbackdialoginner">
+												<input type="hidden" id="splunk_feedback_title" value="Documentation/HadoopConnect/1.2.5/DeployHadoopConnect/ExploreHDFS"/>
+												<input type="hidden" id="splunk_feedback_rawtitle" value="Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2"/>
+												<p>
+													<strong>Was this documentation topic helpful?</strong>
+													<select id="splunk_feedback_yesno">
+														<option value="">Please select</option>
+														<option value="YES">Yes</option>
+														<option value="NO">No</option>
+													</select>
+												</p>
+
+												<p id="splunk_feedback_no_reason" style="display:none">
+													<strong>Please specify the reason</strong>
+													<select id="splunk_feedback_no_reasonlist">
+														<option value="">Please select</option>
+														<option value="didnt_answer">The topic did not answer my question(s)</option>
+														<option value="found_error">I found an error</option>
+														<option value="didnt_like">I did not like the topic organization</option>
+														<option value="other">Other</option>
+													</select>
+												</p>
+
+																								<p>
+													<strong>Enter your email address, and someone from the documentation team will respond to you:</strong>
+													<input id="splunk_feedback_email" type="text" maxlength="255" size="30" value=""/>
+												</p>
+
+												<p>
+													Please provide your comments here. Ask a question or make a suggestion.
+												</p>
+
+												<textarea placeholder="" class="form-control" id="splunk_feedback_comment" rows="3"></textarea>
+												<button class="btn btn-default" type="submit" id="splunk_feedback_submit" name="submit">Send Feedback</button>
+											</form>
+											<p id="splunk_helpful_completed" class="well" style="display: none">
+												<i class="glyphicon glyphicon-edit"></i>
+												<em>Feedback submitted, thanks!</em>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- / END OF FEEDBACK TAB -->
+							<!-- COMMENTS TAB -->
+							<div role="tabpanel" class="tab-pane" id="tab2">
+								<div class="container-fluid no-padding">
+									<div class="row">
+										<div class="col-lg-12 comment-container">
+																							<p>You must be logged into .. in order to post comments.
+													<a href="ExploreHDFS">Log in now</a>.
+												</p>
+																							<p>
+												Please try to keep this discussion focused on the content covered in this documentation topic.
+												If you have a more general question about Splunk functionality or are experiencing a difficulty with Splunk,
+												consider posting a question to <a href="https://web.../web/20181024014701/https://answers.../">Splunkbase Answers</a>.
+											</p>
+											<form>
+												<input type="hidden" id="..ment_title" value="Documentation:HadoopConnect:DeployHadoopConnect:ExploreHDFS:1.2"/>
+												<div class="counter disabled"><span id="..ment_charcount">0</span>
+												out of 1000 Characters</div>
+												<textarea disabled class="form-control" id="..ment_comment" rows="3"></textarea><br/>
+
+												<button class="btn btn-default" type="submit" id="..ment_submit" name="submit">
+													Submit Comment
+												</button>
+											</form>
+											<p id="..ment_completed" class="well" style="display: none">
+												<i class="glyphicon glyphicon-edit"></i>
+												<em>Your Comment Has Been Posted Above</em>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- / END OF COMMENTS TAB -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- / END OF TABS BODIES -->
+    </div>
+</section>
+<style type="text/css">
+/* GDPR Cookie Banner Starts Here */
+	.cookie-banner-centered {
+	position:fixed;
+	bottom:0;
+	z-index:9999;
+	}
+	.cookie-banner-centered.hide {
+	display:none;
+	}
+	.cookie-banner-centered .cookie-banner-container {
+	position:relative;
+	padding:20px 30px;
+	background:#e6e8e6;
+	border:1px solid #72777a;
+	border-left:4px solid #2eb50b;
+	border-radius:2px;
+	box-shadow:0 2px 4px 0 rgba(0,0,0,0.5)
+	}
+	.cookie-banner-centered .cookie-banner-container .close-x-cookie-banner {
+	position:absolute;
+	top:8px;
+	right:8px;
+	height:15px;
+	width:15px;
+	opacity:.8;
+	transition:opacity .3s
+	}
+	.cookie-banner-centered .cookie-banner-container .close-x-cookie-banner:hover {
+	opacity:1;cursor:pointer
+	}
+	.cookie-banner-centered .cookie-banner-container .cookie-message {
+	font-size:15px;
+	font-weight:normal;
+	line-height:1.4em;
+	padding-bottom:15px;
+	color:#474444;
+	display:block
+	}
+	.cookie-banner-centered .cookie-banner-container .cookie-message .cookies-link {
+		display:inline;
+		color:#2eb50b;
+		padding:0;
+		margin:0;
+		white-space:normal;
+		text-align:left;
+		font-weight:600;
+	}
+
+	.cookie-banner-centered .cookie-banner-container .cookies-btn-container {
+		font-size:15px;
+		font-weight:normal;
+		line-height:1.4em;
+		color:#474444;
+		display:block
+	}
+	@media(max-width:768px) {
+	.cookie-banner-centered .cookie-banner-container {
+			margin-right:-10px;
+			margin-left:-10px;
+			margin-bottom:-2px;
+		}
+	}
+	/* GDPR Cookie Banner Ends Here */
+</style>
+
+<!-- GDPR Cookie Banner Starts Here -->
+<div class="cookie-banner-centered hide col-xs-12 col-sm-8 col-sm-offset-2">
+    <div role="dialog" aria-live="polite" aria-label="cookie-banner-container" aria-describedby="cookie-banner-container:desc" class="cookie-banner-container" style="">
+      <div class="close-x-cookie-banner" }>
+	  <img src="close_icon.svg" alt="close">
+      </div>
+      <span class="cookie-message">
+        We use our own and third-party cookies to provide you with a great online experience. We also use these cookies to improve our products and services, support our marketing campaigns, and advertise to you on our website and other websites. Some cookies may continue to collect information after you have left our website.
+        <a aria-label="got it" role="button" tabindex="0" class="cookies-link splunk-btn sp-btn-green-clear" href="splunk-cookie-policy.html" target="_blank">Learn more (including how to update your settings) here » </a>
+      </span>
+      <div class="cookies-btn-container">
+        Closing this box indicates that you accept our Cookie Policy.
+      </div>
+    </div>
+</div>
+<!-- GDPR Cookie Banner Ends Here -->
+
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-3">
+				<img src="splunk-docs-footer-logo.png" alt=""/>
+			</div>
+			<div class="col-xs-12 col-md-5 col-md-offset-4 right-side">
+				<div id="links">
+					<ul>
+						<li><a target="" href="contact.html">Contact</a></li>
+						<li><a target="" href="SP-CAAAAGG">Career</a></li>
+						<li><a target="" href="privacy-policy.html"> Privacy</a></li>
+						<li><a href="terms-of-use.html">Terms of Use</a></li>
+						<li><a href="export-controls.html">Export Control</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="rights" class="col-xs-12">
+				<div>
+					<span>&copy; 2005 - 2018 Splunk Inc. All rights reserved. Splunk&reg;, Splunk&gt;&reg;, Listen to Your Data&reg;, The Engine for Machine Data&reg;, Hunk&reg;, Splunk Cloud&trade;, Splunk&reg; Light, SPL&trade; and Splunk MINT&trade; are trademarks and registered trademarks of Splunk Inc. in the United States and other countries.&nbsp;All other brand names, product names, or trademarks belong to their respective owners.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script type="text/javascript">
+			
+	window.onload = function() {
+
+		var ajax_path = "https://web.../web/20181024014701/https://www."+".."+"/bin/splunk/geoipservice";
+        
+		$.ajax({
+			cache: false,
+			type: "GET",
+			url: ajax_path,
+			dataType: "json",
+			async: false,
+			statusCode: {
+				500: function() {
+					if (typeof(Storage) !== "undefined") {
+						sessionStorage.mkt_region = "AMER";
+					}
+				}
+			},
+			success: function(response) {
+				var region = response.region;
+				if (!region) {
+					region = "AMER";
+				}
+				console.log("Region in: " + region);
+				if (typeof(Storage) !== "undefined") {
+					sessionStorage.mkt_region = region;
+				}
+			},
+			error: function(error) {
+				if (typeof(Storage) !== "undefined") {
+					sessionStorage.mkt_region = "AMER";
+				}
+			}
+		});
+
+		function getCookie(name) {
+            var re = new RegExp(name + "=([^;]+)");
+            var value = re.exec(document.cookie);
+            return (value != null) ? unescape(value[1]) : null;
+        }
+		console.log("Cookie scb_sk: " + getCookie('scb_sk'));
+		if(getCookie('scb_sk') == null && sessionStorage.getItem('mkt_region') == 'EMEA'){   
+	        if($(".cookie-banner-centered").hasClass("hide")){
+	            $(".cookie-banner-centered").removeClass("hide")
+	        }
+	    } else{
+	        if(!$(".cookie-banner-centered").hasClass("hide")){
+	            $(".cookie-banner-centered").addClass("hide")
+	        }
+	    }
+	    $(".close-x-cookie-banner, .cookie-dismiss-cookie-banner").click(function(){
+	        if(!$(".cookie-banner-centered").hasClass("hide")){
+				var checkintkt = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+				document.cookie ="scb_sk="+checkintkt+"; expires=375; domain=...; path=/";
+	           $(".cookie-banner-centered").addClass("hide")
+            }
+	    })
+    };
+
+</script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://web.../web/20181024014701/https://ssl." : "https://web.../web/20181024014701/http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	if (typeof _gat != 'undefined') {
+		var pageTracker = _gat._getTracker("UA-399680-1");
+		pageTracker._setDomainName("..");
+		pageTracker._initData();
+		pageTracker._trackPageview();
+	}
+</script>
+<!-- Google Tag Manager -->
+<noscript><iframe src="ns.html%3Fid=GTM-5ZTFTK.html" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push(
+{'gtm.start': new Date().getTime(),event:'gtm.js'}
+
+);var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//web.../web/20181024014701/http://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5ZTFTK');</script>
+<!-- End Google Tag Manager -->
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.loader.state({"user":"ready","user.groups":"ready"});mw.loader.load(["mediawiki.action.view.postEdit","site","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest","ext.SplunkAuth.js","ext.Splunk.js","skins.oxfordcomma.js"]);});</script><script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":1828});});</script><!--googleon: index-->	</body>
+</html>
+<!--
+     FILE ARCHIVED ON 01:47:01 Oct 24, 2018 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 13:40:05 Mar 26, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 234.885
+  exclusion.robots: 0.095
+  exclusion.robots.policy: 0.088
+  RedisCDXSource: 0.566
+  esindex: 0.008
+  LoadShardBlock: 214.101 (3)
+  PetaboxLoader3.datanode: 310.405 (4)
+  CDXLines.iter: 18.117 (3)
+  load_resource: 245.904
+  PetaboxLoader3.resolve: 73.897
+-->
